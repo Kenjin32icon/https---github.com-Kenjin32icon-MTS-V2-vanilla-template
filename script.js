@@ -53,23 +53,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check for saved preference
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-        darkModeIcon.textContent = '☀️';
-        darkModeText.textContent = 'Light Mode';
-    }
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    updateDarkModeUI(isDarkMode);
     
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', () => {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', isDark);
-            
-            // Update icon and text
-            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
-            darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            updateDarkModeUI(isDark);
         });
     }
 });
+
+// Function to update UI elements based on dark mode state
+function updateDarkModeUI(isDark) {
+    darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+    darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+}
+
 
         // Mobile menu functionality
 document.addEventListener('DOMContentLoaded', () => {

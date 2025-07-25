@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link rel="stylesheet" href="style.css">
         <title>GenMaint Pro - Client Portal</title>
         <style>
@@ -23,38 +25,37 @@
     <body>
         <!-- Add this to all pages -->
 <header>
-    <nav>
-        <div class="logo">
-            <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
-        </div>
-        <div class="title">
-            <h1>GenMaint Pro</h1>
-            <p>Generator Maintenance System</p>
-        </div>
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-label="Open menu">☰</button>
-        <div class="header-container">
-            <div class="nav-container" id="navContainer">
-                <ul class="nav-links">
-                    <!-- Pages will be highlighted with aria-current -->
-                    <li><a href="index.html" aria-current="page">Dashboard</a></li>
-                    <li><a href="registry.html">Registry</a></li>
-                    <li><a href="schedule.html">Schedule</a></li>
-                    <li><a href="records.html">Records</a></li>
-                    <li><a href="parts.html">Parts</a></li>
-                    <li><a href="team.html">Team</a></li>
-                </ul>
+        <nav>
+            <div class="logo">
+                <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
+                <div class="title">
+                    <h1>GenMaint Pro</h1>
+                    <p>Generator Maintenance System</p>
+                </div>
             </div>
-            <div class="nav-actions">
-                <button class="toggle-button" id="darkModeToggle" aria-label="Toggle dark mode">
-                    <span id="darkModeIcon">🌙</span> <span id="darkModeText">Dark Mode</span>
-                </button>
-                <button class="reports-button">Reports</button>
-                <a href="signin.html" class="signing-button">Sign In</a>
-                <a href="clientportal.html" class="client-button">Client Portal</a>
+            <div class="header-container">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
+                        <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                        <li><a href="records.html" class="active"><i class="fas fa-clipboard-list"></i> Records</a></li>
+                        <li><a href="parts.html"><i class="fas fa-cogs"></i> Parts</a></li>
+                        <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+                    </ul>
+                </div>
+                <div class="nav-actions">
+                    <button class="toggle-button" id="darkModeToggle">
+                        <i class="fas fa-moon" id="darkModeIcon"></i>
+                        <span id="darkModeText">Dark Mode</span>
+                    </button>
+                    <a href="reports.html" class="reports-button"><i class="fas fa-chart-bar"></i> Reports</a>
+                    <a href="signin.html" class="signing-button"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                    <a href="clientportal.html" class="client-button"><i class="fas fa-user-circle"></i> Client Portal</a>
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
         <main>
             <section class="client-portal-section" aria-labelledby="client-portal-heading">
