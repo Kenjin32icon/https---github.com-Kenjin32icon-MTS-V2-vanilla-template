@@ -1,16 +1,73 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="style.css">
-        <title>GenMaint Pro - Team Management</title>
-        <style>
-        </style>
-    </head>
-    <body>
-<header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMaint Pro - Team Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for team management page - these are already in style.css based on reports.html */
+        /* Keeping them here for clarity, but they should ideally be in style.css */
+        .table-container {
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        .action-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex; /* Added for icon alignment */
+            align-items: center; /* Added for icon alignment */
+            gap: 5px; /* Added for icon spacing */
+            margin-right: 5px; /* Spacing between buttons */
+        }
+        .action-button.edit-button {
+            background-color: var(--completed-color); /* Green, consistent with status-completed */
+        }
+        .action-button.delete-button {
+            background-color: var(--overdue-color); /* Red, consistent with status-overdue */
+        }
+        .status-badge.active-status {
+            background-color: var(--completed-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status-badge.inactive-status {
+            background-color: var(--overdue-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
         <nav>
             <div class="logo">
                 <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
@@ -25,15 +82,15 @@
                         <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                         <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
                         <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
-                        <li><a href="records.html" class="active"><i class="fas fa-clipboard-list"></i> Records</a></li>
+                        <li><a href="records.html"><i class="fas fa-clipboard-list"></i> Records</a></li>
                         <li><a href="parts.html"><i class="fas fa-cogs"></i> Parts</a></li>
-                        <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+                        <li><a href="team.html" class="active"><i class="fas fa-users"></i> Team</a></li>
                     </ul>
                 </div>
                 <div class="nav-actions">
                     <button class="toggle-button" id="darkModeToggle">
                         <i class="fas fa-moon" id="darkModeIcon"></i>
-                        <span id="darkModeText">Dark Mode</span>
+                        <span id="darkModeText">Light Mode</span>
                     </button>
                     <a href="reports.html" class="reports-button"><i class="fas fa-chart-bar"></i> Reports</a>
                     <a href="signin.html" class="signing-button"><i class="fas fa-sign-in-alt"></i> Sign In</a>
@@ -43,57 +100,340 @@
         </nav>
     </header>
 
-        <main>
-            <section class="team-management" aria-labelledby="team-heading">
-                <div class="section-header">
-                    <div>
-                        <h2 id="team-heading">Team Management</h2>
-                        <p>Manage technicians and their assignments.</p>
+    <!-- Main Content Section -->
+    <main>
+        <section class="team-management service-records" aria-labelledby="team-heading">
+            <div class="section-header">
+                <div>
+                    <h2 id="team-heading"><i class="fas fa-users"></i> Team Management</h2>
+                    <p>Manage technicians and their assignments.</p>
+                </div>
+                <button class="reports-button"><i class="fas fa-user-plus"></i> Add New Technician</button>
+            </div>
+
+            <!-- Stat Cards for Team Management -->
+            <div class="stats-container">
+                <div class="stat-card completed">
+                    <div class="stat-label"><i class="fas fa-user-check"></i> Active Technicians</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-trend">↑ 2 new this month</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-label"><i class="fas fa-tools"></i> Certifications Due</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-trend">Next month</div>
+                </div>
+                <div class="stat-card overdue">
+                    <div class="stat-label"><i class="fas fa-calendar-times"></i> Overdue Assignments</div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-trend">High priority</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-chart-line"></i> Avg Services/Tech (Mo)</div>
+                    <div class="stat-value">10.5</div>
+                    <div class="stat-trend">Consistent performance</div>
+                </div>
+            </div>
+
+            <!-- Filter Bar for Team -->
+            <div class="filter-bar">
+                <input type="text" placeholder="Search by Name, Email..." id="teamSearch">
+                <select id="teamRoleFilter">
+                    <option value="">All Roles</option>
+                    <option value="Technician">Technician</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Admin">Administrator</option>
+                </select>
+                <select id="teamStatusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                <button id="applyTeamFilters"><i class="fas fa-filter"></i> Apply Filters</button>
+                <button id="resetTeamFilters"><i class="fas fa-redo"></i> Reset</button>
+            </div>
+
+            <div class="table-container">
+                <table id="teamTable"> <!-- Added ID for JS targeting -->
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="name">Name</th>
+                            <th class="sortable" data-sort="email">Email</th>
+                            <th class="sortable" data-sort="phone">Phone</th>
+                            <th class="sortable" data-sort="role">Role</th>
+                            <th class="sortable" data-sort="assignedServices">Assigned Services</th>
+                            <th class="sortable" data-sort="status">Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example Row - Data will be loaded dynamically via JavaScript -->
+                        <tr>
+                            <td>John Doe</td>
+                            <td>john.doe@example.com</td>
+                            <td>+1234567890</td>
+                            <td>Technician</td>
+                            <td>15</td>
+                            <td><span class="status-badge active-status">Active</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="tech-001"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>jane.smith@example.com</td>
+                            <td>+0987654321</td>
+                            <td>Supervisor</td>
+                            <td>12</td>
+                            <td><span class="status-badge active-status">Active</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="tech-002"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Robert Johnson</td>
+                            <td>robert.j@example.com</td>
+                            <td>+1122334455</td>
+                            <td>Technician</td>
+                            <td>8</td>
+                            <td><span class="status-badge inactive-status">Inactive</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="tech-003"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination for Team -->
+            <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i></button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Technician Details Modal (similar to Service Details Modal) -->
+    <div class="modal" id="technicianDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Technician Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-card">
+                        <h4>Personal Information</h4>
+                        <p><strong>Name:</strong> John Doe</p>
+                        <p><strong>Email:</strong> john.doe@example.com</p>
+                        <p><strong>Phone:</strong> +1234567890</p>
+                        <p><strong>Address:</strong> 123 Main St, Anytown</p>
                     </div>
-                    <button class="reports-button">Add New Technician</button>
+
+                    <div class="detail-card">
+                        <h4>Employment Details</h4>
+                        <p><strong>Employee ID:</strong> EMP-001</p>
+                        <p><strong>Role:</strong> Technician</p>
+                        <p><strong>Hire Date:</strong> 2020-05-10</p>
+                        <p><strong>Team:</strong> Maintenance Crew A</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Performance & Skills</h4>
+                        <p><strong>Assigned Services:</strong> 15</p>
+                        <p><strong>Completed Services (Mo):</strong> 10</p>
+                        <p><strong>Certifications:</strong> Level 3 Generator Tech, Electrical Safety</p>
+                        <p><strong>Specialties:</strong> Diesel Generators, Troubleshooting</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Status & Availability</h4>
+                        <p><strong>Status:</strong> <span class="status-badge active-status">Active</span></p>
+                        <p><strong>Availability:</strong> Full-time</p>
+                        <p><strong>Last Activity:</strong> 2024-05-20</p>
+                        <p><strong>Next Assignment:</strong> 2024-05-22 (GenPro X100)</p>
+                    </div>
                 </div>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Assigned Services</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Example Row - Data will be loaded dynamically via JavaScript -->
-                            <tr>
-                                <td>John Doe</td>
-                                <td>john.doe@example.com</td>
-                                <td>+1234567890</td>
-                                <td>15</td>
-                                <td>
-                                    <button class="action-button edit-button">Edit</button>
-                                    <button class="action-button delete-button">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>jane.smith@example.com</td>
-                                <td>+0987654321</td>
-                                <td>12</td>
-                                <td>
-                                    <button class="action-button edit-button">Edit</button>
-                                    <button class="action-button delete-button">Delete</button>
-                                </td>
-                            </tr>
-                            <!-- More rows -->
-                        </tbody>
-                    </table>
+                <div class="notes-section">
+                    <h4>Notes</h4>
+                    <div class="detail-card">
+                        <p>Consistently high performer. Excellent problem-solving skills. Needs to renew Electrical Safety certification by end of year.</p>
+                    </div>
                 </div>
-            </section>
-        </main>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-close">Close</button>
+                <button class="btn-print"><i class="fas fa-print"></i> Print Profile</button>
+            </div>
+        </div>
+    </div>
 
-        <script src="team.js"></script>
-        <script src="script.js"></script>
-    </body>
-    </html>
+    <script>
+        // Dark Mode Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            const darkModeText = document.getElementById('darkModeText');
+
+            // Check for saved preference
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.className = 'fas fa-sun';
+                darkModeText.textContent = 'Light Mode';
+            }
+
+            // Toggle dark mode
+            darkModeToggle.addEventListener('click', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDark);
+
+                // Update icon and text
+                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            });
+
+            // Modal functionality for Technician Details
+            const modal = document.getElementById('technicianDetailsModal');
+            const closeModal = document.querySelector('#technicianDetailsModal .close-modal');
+            const closeBtn = document.querySelector('#technicianDetailsModal .btn-close');
+            const viewDetailsBtns = document.querySelectorAll('.view-details');
+
+            // Open modal
+            viewDetailsBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                    // In a real application, you would populate the modal with data based on the clicked row's ID
+                    // For example: const technicianId = btn.dataset.id; fetchTechnicianDetails(technicianId);
+                });
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside content
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Table sorting functionality for Team Table
+            const sortableHeaders = document.querySelectorAll('#teamTable .sortable');
+
+            sortableHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const sortBy = header.dataset.sort;
+                    const isAscending = !header.classList.contains('sorted-asc');
+
+                    // Reset other headers
+                    sortableHeaders.forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+
+                    // Set current header
+                    header.classList.add(isAscending ? 'sorted-asc' : 'sorted-desc');
+
+                    // Sort the table (simulated)
+                    sortTeamTable(sortBy, isAscending);
+                });
+            });
+
+            // Filter functionality for Team Table
+            const applyTeamFiltersBtn = document.getElementById('applyTeamFilters');
+            const resetTeamFiltersBtn = document.getElementById('resetTeamFilters');
+
+            applyTeamFiltersBtn.addEventListener('click', applyTeamFilters);
+            resetTeamFiltersBtn.addEventListener('click', resetTeamFilters);
+
+            function applyTeamFilters() {
+                const searchTerm = document.getElementById('teamSearch').value.toLowerCase();
+                const roleFilter = document.getElementById('teamRoleFilter').value;
+                const statusFilter = document.getElementById('teamStatusFilter').value;
+
+                const rows = document.querySelectorAll('#teamTable tbody tr');
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const name = cells[0].textContent.toLowerCase();
+                    const email = cells[1].textContent.toLowerCase();
+                    const role = cells[3].textContent;
+                    const statusCell = cells[5].querySelector('.status-badge');
+                    const status = statusCell ? statusCell.textContent : '';
+
+                    const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
+                    const matchesRole = !roleFilter || role === roleFilter;
+                    const matchesStatus = !statusFilter || status === statusFilter;
+
+                    row.style.display = matchesSearch && matchesRole && matchesStatus ? '' : 'none';
+                });
+            }
+
+            function resetTeamFilters() {
+                document.getElementById('teamSearch').value = '';
+                document.getElementById('teamRoleFilter').selectedIndex = 0;
+                document.getElementById('teamStatusFilter').selectedIndex = 0;
+
+                const rows = document.querySelectorAll('#teamTable tbody tr');
+                rows.forEach(row => row.style.display = '');
+            }
+
+            // Simulated table sorting for Team
+            function sortTeamTable(column, ascending) {
+                const rows = Array.from(document.querySelectorAll('#teamTable tbody tr'));
+
+                rows.sort((a, b) => {
+                    const aVal = a.children[getTeamColumnIndex(column)].textContent;
+                    const bVal = b.children[getTeamColumnIndex(column)].textContent;
+
+                    // For numeric columns (Assigned Services)
+                    if (column === 'assignedServices') {
+                        const numA = parseInt(aVal);
+                        const numB = parseInt(bVal);
+                        return ascending ? numA - numB : numB - numA;
+                    }
+
+                    // For status column
+                    if (column === 'status') {
+                        const statusOrder = {'Active': 1, 'Inactive': 2};
+                        return ascending ?
+                            statusOrder[aVal] - statusOrder[bVal] :
+                            statusOrder[bVal] - statusOrder[aVal];
+                    }
+
+                    // Default text comparison
+                    return ascending ?
+                        aVal.localeCompare(bVal) :
+                        bVal.localeCompare(aVal);
+                });
+
+                // Re-append rows in sorted order
+                const tableBody = document.querySelector('#teamTable tbody');
+                tableBody.innerHTML = '';
+                rows.forEach(row => tableBody.appendChild(row));
+            }
+
+            function getTeamColumnIndex(column) {
+                const columns = ['name', 'email', 'phone', 'role', 'assignedServices', 'status'];
+                return columns.indexOf(column);
+            }
+        });
+    </script>
+</body>
+</html>

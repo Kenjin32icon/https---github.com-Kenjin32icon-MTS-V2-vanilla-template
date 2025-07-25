@@ -45,17 +45,15 @@
             }
         });
 
-     // Dark Mode Improvements
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Dark Mode Toggle
     const darkModeToggle = document.getElementById('darkModeToggle');
     const darkModeIcon = document.getElementById('darkModeIcon');
     const darkModeText = document.getElementById('darkModeText');
-    
-    // Check for saved preference
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     document.body.classList.toggle('dark-mode', isDarkMode);
     updateDarkModeUI(isDarkMode);
-    
+
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', () => {
             const isDark = document.body.classList.toggle('dark-mode');
@@ -63,20 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDarkModeUI(isDark);
         });
     }
-});
 
-// Function to update UI elements based on dark mode state
-function updateDarkModeUI(isDark) {
-    darkModeIcon.textContent = isDark ? '☀️' : '🌙';
-    darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-}
-
-
-        // Mobile menu functionality
-document.addEventListener('DOMContentLoaded', () => {
+    // Mobile Menu Functionality
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navContainer = document.getElementById('navContainer');
-    
+
     if (mobileMenuBtn && navContainer) {
         mobileMenuBtn.addEventListener('click', () => {
             const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
@@ -84,23 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
             navContainer.classList.toggle('active');
         });
     }
-    
+
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (navContainer.classList.contains('active') && 
-            !e.target.closest('.nav-container') && 
-            !e.target.closest('.mobile-menu-btn')) {
+            !e.target.closest('#navContainer') && 
+            !e.target.closest('#mobileMenuBtn')) {
             navContainer.classList.remove('active');
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
     });
-});
 
-// Active page highlighting
-document.addEventListener('DOMContentLoaded', () => {
+    // Active Page Highlighting
     const currentPage = location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('.nav-links a');
-    
+
     navLinks.forEach(link => {
         if (link.getAttribute('href') === currentPage) {
             link.setAttribute('aria-current', 'page');
@@ -109,3 +96,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Function to update UI elements based on dark mode state
+function updateDarkModeUI(isDark) {
+    darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+    darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+}
+// Active Page Highlighting
+const currentPage = location.pathname.split('/').pop();
+const navLinks = document.querySelectorAll('.nav-links a');
+
+navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active'); // Add active class
+    } else {
+        link.classList.remove('active'); // Remove active class
+    }
+});
+

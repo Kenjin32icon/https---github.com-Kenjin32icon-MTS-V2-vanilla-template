@@ -1,683 +1,15 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="style.css">
-        <title>GenMaint Pro - Generator Registry</title>
-    <style>
-        :root {
-            --primary: #3F51B5;
-            --primary-dark: #303F9F;
-            --secondary: #607D8B;
-            --text: #333333;
-            --text-light: #757575;
-            --bg: #F4F4F4;
-            --card-bg: #FFFFFF;
-            --header-bg: #E0E0E0;
-            --border: #B0B0B0;
-            --positive: #4CAF50;
-            --warning: #FF9800;
-            --danger: #F44336;
-            --shadow: 0 4px 12px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease;
-        }
-        
-        .dark-mode {
-            --primary: #5677FC;
-            --primary-dark: #3F51B5;
-            --text: #effdff;
-            --text-light: #B0BEC5;
-            --bg: #020818;
-            --card-bg: #040c21;
-            --header-bg: #040c21;
-            --border: #1a237e;
-            --positive: #81C784;
-            --warning: #FFB74D;
-            --danger: #E57373;
-            --shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            transition: var(--transition);
-        }
-        
-        header {
-            background-color: var(--header-bg);
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
-        }
-        
-        nav {
-            display: flex;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            gap: 20px;
-        }
-        
-        .logo {
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo-placeholder {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), #2196F3);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        
-        .title h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            color: var(--primary);
-        }
-        
-        .title p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-        
-        .header-container {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-            gap: 20px;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 5px;
-        }
-        
-        .nav-links li {
-            margin: 0;
-        }
-        
-        .nav-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.95rem;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-links a:hover,
-        .nav-links a.active {
-            background-color: rgba(63, 81, 181, 0.15);
-        }
-        
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .reports-button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .reports-button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .toggle-button {
-            background-color: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-        }
-        
-        .toggle-button:hover {
-            background-color: #455A64;
-        }
-        
-        .signing-button, .client-button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .signing-button:hover, .client-button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        main {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .section-header h2 {
-            color: var(--text);
-            margin: 0;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .section-header p {
-            color: var(--text-light);
-            margin: 5px 0 0 0;
-        }
-        
-        /* Records Page Specific Styles */
-        .filter-bar {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-        
-        .filter-bar input, .filter-bar select {
-            padding: 10px 15px;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            background-color: var(--bg);
-            color: var(--text);
-            flex: 1;
-            min-width: 200px;
-            transition: var(--transition);
-        }
-        
-        .filter-bar input:focus, .filter-bar select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2);
-        }
-        
-        .filter-bar button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .filter-bar button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .stat-card.completed {
-            border-left-color: var(--positive);
-        }
-        
-        .stat-card.pending {
-            border-left-color: var(--warning);
-        }
-        
-        .stat-card.overdue {
-            border-left-color: var(--danger);
-        }
-        
-        .stat-card .stat-value {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: var(--text);
-            margin: 10px 0;
-        }
-        
-        .stat-card .stat-label {
-            font-size: 1rem;
-            color: var(--text-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .table-container {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            overflow-x: auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-        
-        thead {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        th.sortable::after {
-            content: "↕";
-            margin-left: 5px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-        
-        th.sorted-asc::after {
-            content: "↑";
-        }
-        
-        th.sorted-desc::after {
-            content: "↓";
-        }
-        
-        tbody tr {
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        
-        tbody tr:hover {
-            background-color: rgba(63, 81, 181, 0.05);
-        }
-        
-        td {
-            padding: 12px 15px;
-            color: var(--text);
-        }
-        
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            display: inline-block;
-        }
-        
-        .status-completed {
-            background-color: rgba(76, 175, 80, 0.15);
-            color: var(--positive);
-        }
-        
-        .status-pending {
-            background-color: rgba(255, 152, 0, 0.15);
-            color: var(--warning);
-        }
-        
-        .status-overdue {
-            background-color: rgba(244, 67, 54, 0.15);
-            color: var(--danger);
-        }
-        
-        .action-button {
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .view-details {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .view-details:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            gap: 10px;
-        }
-        
-        .pagination button {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 36px;
-            height: 36px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-        
-        .pagination button.active, 
-        .pagination button:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: var(--card-bg);
-            width: 90%;
-            max-width: 800px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            padding: 20px;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-            font-weight: 600;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-        
-        .close-modal:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .modal-body {
-            padding: 20px;
-        }
-        
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .detail-card {
-            background: var(--bg);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        
-        .detail-card h4 {
-            margin-bottom: 10px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .detail-card p {
-            font-size: 1.1rem;
-            color: var(--text);
-        }
-        
-        .parts-list {
-            margin-top: 20px;
-        }
-        
-        .parts-list h4 {
-            margin-bottom: 10px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .parts-list ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .parts-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .parts-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .modal-footer {
-            padding: 15px 20px;
-            background: var(--bg);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        .modal-footer button {
-            padding: 8px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-            border: none;
-        }
-        
-        .btn-close {
-            background: var(--bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        
-        .btn-close:hover {
-            background: #e0e0e0;
-        }
-        
-        .btn-print {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-print:hover {
-            background: var(--primary-dark);
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 1024px) {
-            nav {
-                flex-wrap: wrap;
-            }
-            
-            .header-container {
-                margin-left: 0;
-                width: 100%;
-                order: 3;
-                margin-top: 15px;
-            }
-            
-            .nav-actions {
-                justify-content: space-between;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .filter-bar {
-                flex-direction: column;
-            }
-            
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
-                flex-wrap: wrap;
-            }
-            
-            th, td {
-                padding: 10px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .title h1 {
-                font-size: 1.5rem;
-            }
-            
-            .title p {
-                font-size: 0.8rem;
-            }
-            
-            .nav-actions {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                width: 100%;
-            }
-            
-            .section-header h2 {
-                font-size: 1.5rem;
-            }
-            
-            .stat-card .stat-value {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
-    </head>
-    <body>
-        <!-- Add this to all pages -->
-<header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMaint Pro - Generator Registry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
         <nav>
             <div class="logo">
                 <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
@@ -690,9 +22,9 @@
                 <div class="nav-container">
                     <ul class="nav-links">
                         <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                        <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
+                        <li><a href="registry.html" class="active"><i class="fas fa-list"></i> Registry</a></li>
                         <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
-                        <li><a href="records.html" class="active"><i class="fas fa-clipboard-list"></i> Records</a></li>
+                        <li><a href="records.html"><i class="fas fa-clipboard-list"></i> Records</a></li>
                         <li><a href="parts.html"><i class="fas fa-cogs"></i> Parts</a></li>
                         <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
                     </ul>
@@ -710,60 +42,313 @@
         </nav>
     </header>
 
-        <main>
-            <section class="registry-management" aria-labelledby="registry-heading">
-                <div class="section-header">
-                    <div>
-                        <h2 id="registry-heading">Generator Registry</h2>
-                        <p>Manage all registered generators and their details.</p>
+    <!-- Main Content Section -->
+    <main>
+        <section class="registry-management service-records" aria-labelledby="registry-heading">
+            <div class="section-header">
+                <div>
+                    <h2 id="registry-heading"><i class="fas fa-list"></i> Generator Registry</h2>
+                    <p>Manage all registered generators and their details.</p>
+                </div>
+                <button class="reports-button"><i class="fas fa-plus-circle"></i> Add New Generator</button>
+            </div>
+
+            <!-- Filter Bar for Registry -->
+            <div class="filter-bar">
+                <input type="text" placeholder="Search by Model, Serial Number..." id="registrySearch">
+                <select id="registryTypeFilter">
+                    <option value="">All Types</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Gasoline">Gasoline</option>
+                    <option value="Natural Gas">Natural Gas</option>
+                </select>
+                <select id="registryLocationFilter">
+                    <option value="">All Locations</option>
+                    <option value="Warehouse A">Warehouse A</option>
+                    <option value="Site B">Site B</option>
+                    <option value="Main Office">Main Office</option>
+                </select>
+                <input type="date" id="registryDateFrom" placeholder="From Date">
+                <input type="date" id="registryDateTo" placeholder="To Date">
+                <button id="applyRegistryFilters"><i class="fas fa-filter"></i> Apply Filters</button>
+                <button id="resetRegistryFilters"><i class="fas fa-redo"></i> Reset</button>
+            </div>
+
+            <div class="table-container">
+                <table id="registryTable"> <!-- Added ID for JS targeting -->
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="model">Model</th>
+                            <th class="sortable" data-sort="type">Type</th>
+                            <th class="sortable" data-sort="serial">Serial Number</th>
+                            <th class="sortable" data-sort="location">Location</th>
+                            <th class="sortable" data-sort="purchaseDate">Purchase Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example Row - Data will be loaded dynamically via JavaScript -->
+                        <tr>
+                            <td>GenPro X100</td>
+                            <td>Diesel</td>
+                            <td>SN-GPX100-001</td>
+                            <td>Warehouse A</td>
+                            <td>2022-01-15</td>
+                            <td>
+                                <button class="action-button view-details" data-id="gen-001"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PowerGen 5000</td>
+                            <td>Gasoline</td>
+                            <td>SN-PG5000-002</td>
+                            <td>Site B</td>
+                            <td>2023-03-20</td>
+                            <td>
+                                <button class="action-button view-details" data-id="gen-002"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EcoPower 3000</td>
+                            <td>Natural Gas</td>
+                            <td>SN-EP3000-003</td>
+                            <td>Main Office</td>
+                            <td>2021-11-01</td>
+                            <td>
+                                <button class="action-button view-details" data-id="gen-003"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <!-- More rows can be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination for Registry -->
+            <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i></button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Generator Details Modal (similar to Service Details Modal) -->
+    <div class="modal" id="generatorDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Generator Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-card">
+                        <h4>Basic Information</h4>
+                        <p><strong>Model:</strong> GenPro X100</p>
+                        <p><strong>Type:</strong> Diesel</p>
+                        <p><strong>Serial No:</strong> SN-GPX100-001</p>
+                        <p><strong>Location:</strong> Warehouse A</p>
                     </div>
-                    <button class="reports-button">Add New Generator</button>
+
+                    <div class="detail-card">
+                        <h4>Purchase & Warranty</h4>
+                        <p><strong>Purchase Date:</strong> 2022-01-15</p>
+                        <p><strong>Warranty End:</strong> 2025-01-15</p>
+                        <p><strong>Supplier:</strong> Global Power Inc.</p>
+                        <p><strong>Cost:</strong> $15,000</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Operational Data</h4>
+                        <p><strong>Total Hours Run:</strong> 1,250 hrs</p>
+                        <p><strong>Last Service:</strong> 2024-03-10</p>
+                        <p><strong>Next Service Due:</strong> 2024-09-10</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-active">Active</span></p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Client Information</h4>
+                        <p><strong>Client:</strong> ABC Corp</p>
+                        <p><strong>Contact:</strong> jane.doe@abccorp.com</p>
+                        <p><strong>Client ID:</strong> CLI-001</p>
+                        <p><strong>Assigned Technician:</strong> John Doe</p>
+                    </div>
                 </div>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Model</th>
-                                <th>Type</th>
-                                <th>Serial Number</th>
-                                <th>Location</th>
-                                <th>Purchase Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Example Row - Data will be loaded dynamically via JavaScript -->
-                            <tr>
-                                <td>GenPro X100</td>
-                                <td>Diesel</td>
-                                <td>SN-GPX100-001</td>
-                                <td>Warehouse A</td>
-                                <td>2022-01-15</td>
-                                <td>
-                                    <button class="action-button edit-button">Edit</button>
-                                    <button class="action-button delete-button">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PowerGen 5000</td>
-                                <td>Gasoline</td>
-                                <td>SN-PG5000-002</td>
-                                <td>Site B</td>
-                                <td>2023-03-20</td>
-                                <td>
-                                    <button class="action-button edit-button">Edit</button>
-                                    <button class="action-button delete-button">Delete</button>
-                                </td>
-                            </tr>
-                            <!-- More rows -->
-                        </tbody>
-                    </table>
+                <div class="notes-section">
+                    <h4>Notes & History</h4>
+                    <div class="detail-card">
+                        <p>Initial setup completed without issues. Generator is primary backup for critical systems. Regular load testing recommended.</p>
+                    </div>
                 </div>
-            </section>
-        </main>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-close">Close</button>
+                <button class="btn-print"><i class="fas fa-print"></i> Print Details</button>
+            </div>
+        </div>
+    </div>
 
-        <script src="registry.js"></script>
-        <script src="script.js"></script> <!-- For shared functionalities like dark mode, mobile menu -->
-    </body>
-    </html>
+    <script>
+        // Dark Mode Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            const darkModeText = document.getElementById('darkModeText');
+
+            // Check for saved preference
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.className = 'fas fa-sun';
+                darkModeText.textContent = 'Light Mode';
+            }
+
+            // Toggle dark mode
+            darkModeToggle.addEventListener('click', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDark);
+
+                // Update icon and text
+                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            });
+
+            // Modal functionality for Generator Details
+            const modal = document.getElementById('generatorDetailsModal');
+            const closeModal = document.querySelector('#generatorDetailsModal .close-modal');
+            const closeBtn = document.querySelector('#generatorDetailsModal .btn-close');
+            const viewDetailsBtns = document.querySelectorAll('.view-details');
+
+            // Open modal
+            viewDetailsBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                    // In a real application, you would populate the modal with data based on the clicked row's ID
+                    // For example: const generatorId = btn.dataset.id; fetchGeneratorDetails(generatorId);
+                });
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside content
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Table sorting functionality for Registry Table
+            const sortableHeaders = document.querySelectorAll('#registryTable .sortable');
+
+            sortableHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const sortBy = header.dataset.sort;
+                    const isAscending = !header.classList.contains('sorted-asc');
+
+                    // Reset other headers
+                    sortableHeaders.forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+
+                    // Set current header
+                    header.classList.add(isAscending ? 'sorted-asc' : 'sorted-desc');
+
+                    // Sort the table (simulated)
+                    sortRegistryTable(sortBy, isAscending);
+                });
+            });
+
+            // Filter functionality for Registry Table
+            const applyRegistryFiltersBtn = document.getElementById('applyRegistryFilters');
+            const resetRegistryFiltersBtn = document.getElementById('resetRegistryFilters');
+
+            applyRegistryFiltersBtn.addEventListener('click', applyRegistryFilters);
+            resetRegistryFiltersBtn.addEventListener('click', resetRegistryFilters);
+
+            function applyRegistryFilters() {
+                const searchTerm = document.getElementById('registrySearch').value.toLowerCase();
+                const typeFilter = document.getElementById('registryTypeFilter').value;
+                const locationFilter = document.getElementById('registryLocationFilter').value;
+                const dateFrom = document.getElementById('registryDateFrom').value;
+                const dateTo = document.getElementById('registryDateTo').value;
+
+                const rows = document.querySelectorAll('#registryTable tbody tr');
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const model = cells[0].textContent.toLowerCase();
+                    const serial = cells[2].textContent.toLowerCase();
+                    const type = cells[1].textContent;
+                    const location = cells[3].textContent;
+                    const purchaseDate = cells[4].textContent;
+
+                    const matchesSearch = model.includes(searchTerm) || serial.includes(searchTerm);
+                    const matchesType = !typeFilter || type === typeFilter;
+                    const matchesLocation = !locationFilter || location === locationFilter;
+                    const matchesDate = (!dateFrom || purchaseDate >= dateFrom) && (!dateTo || purchaseDate <= dateTo);
+
+                    row.style.display = matchesSearch && matchesType && matchesLocation && matchesDate ? '' : 'none';
+                });
+            }
+
+            function resetRegistryFilters() {
+                document.getElementById('registrySearch').value = '';
+                document.getElementById('registryTypeFilter').selectedIndex = 0;
+                document.getElementById('registryLocationFilter').selectedIndex = 0;
+                document.getElementById('registryDateFrom').value = '';
+                document.getElementById('registryDateTo').value = '';
+
+                const rows = document.querySelectorAll('#registryTable tbody tr');
+                rows.forEach(row => row.style.display = '');
+            }
+
+            // Simulated table sorting for Registry
+            function sortRegistryTable(column, ascending) {
+                const rows = Array.from(document.querySelectorAll('#registryTable tbody tr'));
+
+                rows.sort((a, b) => {
+                    const aVal = a.children[getRegistryColumnIndex(column)].textContent;
+                    const bVal = b.children[getRegistryColumnIndex(column)].textContent;
+
+                    // For date columns
+                    if (column === 'purchaseDate') {
+                        return ascending ?
+                            new Date(aVal) - new Date(bVal) :
+                            new Date(bVal) - new Date(aVal);
+                    }
+
+                    // Default text comparison
+                    return ascending ?
+                        aVal.localeCompare(bVal) :
+                        bVal.localeCompare(aVal);
+                });
+
+                // Re-append rows in sorted order
+                const tableBody = document.querySelector('#registryTable tbody');
+                tableBody.innerHTML = '';
+                rows.forEach(row => tableBody.appendChild(row));
+            }
+
+            function getRegistryColumnIndex(column) {
+                const columns = ['model', 'type', 'serial', 'location', 'purchaseDate'];
+                return columns.indexOf(column);
+            }
+        });
+    </script>
+</body>
+</html>
