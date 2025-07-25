@@ -1,0 +1,101 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>GenMaint Pro - Parts Inventory</title>
+        <style>
+            /* Specific styles for parts page */
+        </style>
+    </head>
+    <body>
+        <!-- Add this to all pages -->
+<header>
+    <nav>
+        <div class="logo">
+            <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
+        </div>
+        <div class="title">
+            <h1>GenMaint Pro</h1>
+            <p>Generator Maintenance System</p>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-label="Open menu">☰</button>
+        <div class="header-container">
+            <div class="nav-container" id="navContainer">
+                <ul class="nav-links">
+                    <!-- Pages will be highlighted with aria-current -->
+                    <li><a href="index.html" aria-current="page">Dashboard</a></li>
+                    <li><a href="registry.html">Registry</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="records.html">Records</a></li>
+                    <li><a href="parts.html">Parts</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <button class="toggle-button" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span> <span id="darkModeText">Dark Mode</span>
+                </button>
+                <button class="reports-button">Reports</button>
+                <a href="signin.html" class="signing-button">Sign In</a>
+                <a href="clientportal.html" class="client-button">Client Portal</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+        <main>
+            <section class="parts-inventory" aria-labelledby="parts-heading">
+                <div class="section-header">
+                    <div>
+                        <h2 id="parts-heading">Parts Inventory</h2>
+                        <p>Manage spare parts stock and usage.</p>
+                    </div>
+                    <button class="reports-button">Add New Part</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Part Name</th>
+                                <th>Part Number</th>
+                                <th>Quantity in Stock</th>
+                                <th>Cost per Unit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row - Data will be loaded dynamically via JavaScript -->
+                            <tr>
+                                <td>Oil Filter</td>
+                                <td>OF-12345</td>
+                                <td>50</td>
+                                <td>$15.00</td>
+                                <td>
+                                    <button class="action-button edit-button">Edit</button>
+                                    <button class="action-button delete-button">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Spark Plug</td>
+                                <td>SP-67890</td>
+                                <td>120</td>
+                                <td>$5.50</td>
+                                <td>
+                                    <button class="action-button edit-button">Edit</button>
+                                    <button class="action-button delete-button">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- More rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <script src="parts.js"></script>
+        <script src="script.js"></script>
+    </body>
+    </html>

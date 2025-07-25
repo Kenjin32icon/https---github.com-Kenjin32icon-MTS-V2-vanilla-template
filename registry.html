@@ -1,0 +1,104 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>GenMaint Pro - Generator Registry</title>
+        <style>
+            /* Add any specific styles for the registry page here if needed */
+        </style>
+    </head>
+    <body>
+        <!-- Add this to all pages -->
+<header>
+    <nav>
+        <div class="logo">
+            <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
+        </div>
+        <div class="title">
+            <h1>GenMaint Pro</h1>
+            <p>Generator Maintenance System</p>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-label="Open menu">☰</button>
+        <div class="header-container">
+            <div class="nav-container" id="navContainer">
+                <ul class="nav-links">
+                    <!-- Pages will be highlighted with aria-current -->
+                    <li><a href="index.html" aria-current="page">Dashboard</a></li>
+                    <li><a href="registry.html">Registry</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="records.html">Records</a></li>
+                    <li><a href="parts.html">Parts</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <button class="toggle-button" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span> <span id="darkModeText">Dark Mode</span>
+                </button>
+                <button class="reports-button">Reports</button>
+                <a href="signin.html" class="signing-button">Sign In</a>
+                <a href="clientportal.html" class="client-button">Client Portal</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+        <main>
+            <section class="registry-management" aria-labelledby="registry-heading">
+                <div class="section-header">
+                    <div>
+                        <h2 id="registry-heading">Generator Registry</h2>
+                        <p>Manage all registered generators and their details.</p>
+                    </div>
+                    <button class="reports-button">Add New Generator</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Type</th>
+                                <th>Serial Number</th>
+                                <th>Location</th>
+                                <th>Purchase Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row - Data will be loaded dynamically via JavaScript -->
+                            <tr>
+                                <td>GenPro X100</td>
+                                <td>Diesel</td>
+                                <td>SN-GPX100-001</td>
+                                <td>Warehouse A</td>
+                                <td>2022-01-15</td>
+                                <td>
+                                    <button class="action-button edit-button">Edit</button>
+                                    <button class="action-button delete-button">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PowerGen 5000</td>
+                                <td>Gasoline</td>
+                                <td>SN-PG5000-002</td>
+                                <td>Site B</td>
+                                <td>2023-03-20</td>
+                                <td>
+                                    <button class="action-button edit-button">Edit</button>
+                                    <button class="action-button delete-button">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- More rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <script src="registry.js"></script>
+        <script src="script.js"></script> <!-- For shared functionalities like dark mode, mobile menu -->
+    </body>
+    </html>

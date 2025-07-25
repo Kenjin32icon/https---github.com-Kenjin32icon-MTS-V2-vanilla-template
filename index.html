@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>GenMaint Pro - Reports & Analytics</title>
+</head>
+<body>
+    <header>
+        <nav>
+<header>
+    <nav>
+        <div class="logo">
+            <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
+        </div>
+        <div class="title">
+            <h1>GenMaint Pro</h1>
+            <p>Generator Maintenance System</p>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-label="Open menu">☰</button>
+        <div class="header-container">
+            <div class="nav-container" id="navContainer">
+                <ul class="nav-links">
+                    <!-- Pages will be highlighted with aria-current -->
+                    <li><a href="index.html" aria-current="page">Dashboard</a></li>
+                    <li><a href="registry.html">Registry</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="records.html">Records</a></li>
+                    <li><a href="parts.html">Parts</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <button class="toggle-button" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span> <span id="darkModeText">Dark Mode</span>
+                </button>
+                <button class="reports-button">Reports</button>
+                <a href="signin.html" class="signing-button">Sign In</a>
+                <a href="clientportal.html" class="client-button">Client Portal</a>
+            </div>
+        </div>
+    </nav>
+</header>
+        
+        </nav>
+    </header>
+
+    <main>
+        <section class="analytics" aria-labelledby="reports-heading">
+            <div class="section-header">
+                <div>
+                    <h2 id="reports-heading">Reports & Analytics</h2>
+                    <p>Comprehensive insights into maintenance operations</p>
+                </div>
+                <div class="export">
+                    <div class="dropdown">
+                        <button class="dropdown-toggle">Year to Date ▾</button>
+                        <div class="dropdown-menu">
+                            <button>Last 7 Days</button>
+                            <button>Last 30 Days</button>
+                            <button>Quarter to Date</button>
+                            <button>Custom Range</button>
+                        </div>
+                    </div>
+                    <button class="export-button">Export Report ▾</button>
+                </div>
+            </div>
+            
+            <div class="cards">
+                <div class="card" role="region" aria-labelledby="services-heading">
+                    <h3 id="services-heading">Total Services YTD</h3>
+                    <div class="metric" aria-label="152 services">152</div>
+                    <div class="trend positive">≈ +12% vs last year</div>
+                    <div class="card-footer">On track to exceed target</div>
+                </div>
+                <div class="card" role="region" aria-labelledby="cost-heading">
+                    <h3 id="cost-heading">Total Cost YTD</h3>
+                    <div class="metric" aria-label="69,400 dollars">$69,400</div>
+                    <div class="trend positive">≈ -8% vs last year</div>
+                    <div class="card-footer">Cost efficiency improving</div>
+                </div>
+                <div class="card" role="region" aria-labelledby="response-heading">
+                    <h3 id="response-heading">Avg Response Time</h3>
+                    <div class="metric" aria-label="2.4 hours">2.4 hrs</div>
+                    <div class="trend positive">≈ -15% improvement</div>
+                    <div class="card-footer">Faster than industry avg</div>
+                </div>
+                <div class="card" role="region" aria-labelledby="overdue-heading">
+                    <h3 id="overdue-heading">Overdue Services</h3>
+                    <div class="metric" aria-label="3 overdue">3</div>
+                    <div class="trend positive">≈ -40% vs last month</div>
+                    <div class="card-footer">2 critical, 1 moderate</div>
+                </div>
+            </div>
+            
+            <div class="chart-container" role="region" aria-labelledby="chart-heading">
+                <div class="chart-header">
+                    <h3 id="chart-heading">Service Volume Trend</h3>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="color current"></span> 2024</span>
+                        <span class="legend-item"><span class="color previous"></span> 2023</span>
+                    </div>
+                </div>
+                <canvas id="serviceTrendChart" aria-label="Service volume trend chart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

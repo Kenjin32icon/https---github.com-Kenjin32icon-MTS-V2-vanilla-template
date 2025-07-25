@@ -1,0 +1,115 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>GenMaint Pro - Client Portal</title>
+        <style>
+            /* Specific styles for client portal */
+            .client-info {
+                background-color: var(--card-bg);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                margin-bottom: 30px;
+            }
+            .client-info h3 {
+                color: var(--primary);
+                margin-bottom: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Add this to all pages -->
+<header>
+    <nav>
+        <div class="logo">
+            <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
+        </div>
+        <div class="title">
+            <h1>GenMaint Pro</h1>
+            <p>Generator Maintenance System</p>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-label="Open menu">☰</button>
+        <div class="header-container">
+            <div class="nav-container" id="navContainer">
+                <ul class="nav-links">
+                    <!-- Pages will be highlighted with aria-current -->
+                    <li><a href="index.html" aria-current="page">Dashboard</a></li>
+                    <li><a href="registry.html">Registry</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="records.html">Records</a></li>
+                    <li><a href="parts.html">Parts</a></li>
+                    <li><a href="team.html">Team</a></li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <button class="toggle-button" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span> <span id="darkModeText">Dark Mode</span>
+                </button>
+                <button class="reports-button">Reports</button>
+                <a href="signin.html" class="signing-button">Sign In</a>
+                <a href="clientportal.html" class="client-button">Client Portal</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+        <main>
+            <section class="client-portal-section" aria-labelledby="client-portal-heading">
+                <div class="section-header">
+                    <div>
+                        <h2 id="client-portal-heading">Client Portal</h2>
+                        <p>View your assigned generators and their service history.</p>
+                    </div>
+                </div>
+
+                <div class="client-info">
+                    <h3>Welcome, [Client Name]!</h3>
+                    <p>Here's an overview of your generators and their recent services.</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Generator Model</th>
+                                <th>Serial Number</th>
+                                <th>Last Service Date</th>
+                                <th>Next Service Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example Row - Data will be loaded dynamically via JavaScript -->
+                            <tr>
+                                <td>GenPro X100</td>
+                                <td>SN-GPX100-001</td>
+                                <td>2024-03-10</td>
+                                <td>2024-09-10</td>
+                                <td>Completed</td>
+                                <td><button class="action-button view-details">View Service History</button></td>
+                            </tr>
+                            <!-- More rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Add loading indicator -->
+<div class="table-container">
+    <div id="loading-indicator" style="text-align: center; padding: 2rem;">
+        <div class="spinner"></div>
+        <p>Loading generator data...</p>
+    </div>
+    <table style="display: none;">
+        <!-- Table content -->
+    </table>
+</div>
+        </main>
+
+        <script src="clientportal.js"></script>
+        <script src="script.js"></script>
+    </body>
+    </html>
