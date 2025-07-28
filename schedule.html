@@ -87,34 +87,34 @@
                 <div class="detail-grid">
                     <div class="detail-card">
                         <h4>Service Information</h4>
-                        <p><strong>ID:</strong> <span id="modal-service-id"></span></p>
-                        <p><strong>Date:</strong> <span id="modal-service-date"></span></p>
-                        <p><strong>Time:</strong> <span id="modal-service-time"></span></p>
-                        <p><strong>Type:</strong> <span id="modal-service-type"></span></p>
+                        <p><strong>ID:</strong> <span data-key="id"></span></p>
+                        <p><strong>Date:</strong> <span data-key="date"></span></p>
+                        <p><strong>Time:</strong> <span data-key="time"></span></p>
+                        <p><strong>Type:</strong> <span data-key="type"></span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Generator Details</h4>
-                        <p><strong>Model:</strong> <span id="modal-gen-model"></span></p>
-                        <p><strong>Serial No:</strong> <span id="modal-gen-serial"></span></p>
-                        <p><strong>Location:</strong> <span id="modal-gen-location"></span></p>
-                        <p><strong>Last Service:</strong> <span id="modal-gen-last-service"></span></p>
+                        <p><strong>Model:</strong> <span data-key="generator"></span></p>
+                        <p><strong>Serial No:</strong> <span data-key="serial"></span></p>
+                        <p><strong>Location:</strong> <span data-key="location"></span></p>
+                        <p><strong>Last Service:</strong> <span data-key="lastService"></span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Assigned Team</h4>
-                        <p><strong>Technician:</strong> <span id="modal-tech-name"></span></p>
-                        <p><strong>Team:</strong> <span id="modal-tech-team"></span></p>
-                        <p><strong>Contact:</strong> <span id="modal-tech-contact"></span></p>
-                        <p><strong>Priority:</strong> <span id="modal-service-priority"></span></p>
+                        <p><strong>Technician:</strong> <span data-key="technician"></span></p>
+                        <p><strong>Team:</strong> <span data-key="team"></span></p>
+                        <p><strong>Contact:</strong> <span data-key="contact"></span></p>
+                        <p><strong>Priority:</strong> <span data-key="priority"></span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Status & Notes</h4>
-                        <p><strong>Status:</strong> <span class="status-badge" id="modal-service-status"></span></p>
-                        <p><strong>Estimated Duration:</strong> <span id="modal-service-duration"></span></p>
-                        <p><strong>Required Parts:</strong> <span id="modal-service-parts"></span></p>
-                        <p><strong>Notes:</strong> <span id="modal-service-notes"></span></p>
+                        <p><strong>Status:</strong> <span class="status-badge" data-key="status"></span></p>
+                        <p><strong>Estimated Duration:</strong> <span data-key="duration"></span></p>
+                        <p><strong>Required Parts:</strong> <span data-key="parts"></span></p>
+                        <p><strong>Notes:</strong> <span data-key="notes"></span></p>
                     </div>
                 </div>
             </div>
@@ -147,19 +147,19 @@
                         <div class="detail-card">
                             <h4>Service Information</h4>
                             <label for="serviceId">Service ID:</label>
-                            <input type="text" id="serviceId" name="serviceId" required>
+                            <input type="text" id="serviceId" name="id" required>
 
                             <label for="serviceDate">Date:</label>
-                            <input type="date" id="serviceDate" name="serviceDate" required>
+                            <input type="date" id="serviceDate" name="date" required>
 
                             <label for="serviceTime">Time:</label>
-                            <input type="time" id="serviceTime" name="serviceTime" required>
+                            <input type="time" id="serviceTime" name="time" required>
 
                             <label for="serviceType">Type:</label>
-                            <input type="text" id="serviceType" name="serviceType" placeholder="e.g., Oil Change, Inspection" required>
+                            <input type="text" id="serviceType" name="type" placeholder="e.g., Oil Change, Inspection" required>
 
                             <label for="serviceStatus">Status:</label>
-                            <select id="serviceStatus" name="serviceStatus" required>
+                            <select id="serviceStatus" name="status" required>
                                 <option value="pending">Pending</option>
                                 <option value="completed">Completed</option>
                                 <option value="overdue">Overdue</option>
@@ -172,16 +172,16 @@
                         <div class="detail-card">
                             <h4>Generator Details</h4>
                             <label for="genModel">Generator Model:</label>
-                            <input type="text" id="genModel" name="genModel" required>
+                            <input type="text" id="genModel" name="generator" required>
 
                             <label for="genSerial">Serial No:</label>
-                            <input type="text" id="genSerial" name="genSerial" required>
+                            <input type="text" id="genSerial" name="serial" required>
 
                             <label for="genLocation">Location:</label>
-                            <input type="text" id="genLocation" name="genLocation" required>
+                            <input type="text" id="genLocation" name="location" required>
 
                             <label for="genLastService">Last Service Date:</label>
-                            <input type="date" id="genLastService" name="genLastService">
+                            <input type="date" id="genLastService" name="lastService">
                         </div>
                     </div>
 
@@ -190,16 +190,16 @@
                         <div class="detail-card">
                             <h4>Assigned Team</h4>
                             <label for="techName">Technician:</label>
-                            <input type="text" id="techName" name="techName" required>
+                            <input type="text" id="techName" name="technician" required>
 
                             <label for="techTeam">Team:</label>
-                            <input type="text" id="techTeam" name="techTeam">
+                            <input type="text" id="techTeam" name="team">
 
                             <label for="techContact">Contact Email:</label>
-                            <input type="email" id="techContact" name="techContact">
+                            <input type="email" id="techContact" name="contact">
 
                             <label for="servicePriority">Priority:</label>
-                            <select id="servicePriority" name="servicePriority" required>
+                            <select id="servicePriority" name="priority" required>
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
                                 <option value="High">High</option>
@@ -213,13 +213,13 @@
                         <div class="detail-card">
                             <h4>Additional Information</h4>
                             <label for="serviceDuration">Estimated Duration:</label>
-                            <input type="text" id="serviceDuration" name="serviceDuration" placeholder="e.g., 1.5 hours">
+                            <input type="text" id="serviceDuration" name="duration" placeholder="e.g., 1.5 hours">
 
                             <label for="serviceParts">Required Parts:</label>
-                            <textarea id="serviceParts" name="serviceParts" rows="3" placeholder="e.g., Oil Filter, 5L Synthetic Oil"></textarea>
+                            <textarea id="serviceParts" name="parts" rows="3" placeholder="e.g., Oil Filter, 5L Synthetic Oil"></textarea>
 
                             <label for="serviceNotes">Notes:</label>
-                            <textarea id="serviceNotes" name="serviceNotes" rows="3"></textarea>
+                            <textarea id="serviceNotes" name="notes" rows="3"></textarea>
                         </div>
                     </div>
                 </form>
@@ -234,7 +234,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
-    <script src="schedule.js"></script> <!-- New script for calendar logic -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>

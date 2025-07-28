@@ -95,44 +95,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example Row - Data will be loaded dynamically via JavaScript -->
-                        <tr>
-                            <td>GenPro X100</td>
-                            <td>Diesel</td>
-                            <td>SN-GPX100-001</td>
-                            <td>Warehouse A</td>
-                            <td>2022-01-15</td>
-                            <td>
-                                <button class="action-button view-details" data-id="gen-001"><i class="fas fa-eye"></i> View</button>
-                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>PowerGen 5000</td>
-                            <td>Gasoline</td>
-                            <td>SN-PG5000-002</td>
-                            <td>Site B</td>
-                            <td>2023-03-20</td>
-                            <td>
-                                <button class="action-button view-details" data-id="gen-002"><i class="fas fa-eye"></i> View</button>
-                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>EcoPower 3000</td>
-                            <td>Natural Gas</td>
-                            <td>SN-EP3000-003</td>
-                            <td>Main Office</td>
-                            <td>2021-11-01</td>
-                            <td>
-                                <button class="action-button view-details" data-id="gen-003"><i class="fas fa-eye"></i> View</button>
-                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
-                            </td>
-                        </tr>
-                        <!-- More rows can be added dynamically -->
+                        <!-- Data will be populated dynamically via JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -159,41 +122,41 @@
                 <div class="detail-grid">
                     <div class="detail-card">
                         <h4>Basic Information</h4>
-                        <p><strong>Model:</strong> GenPro X100</p>
-                        <p><strong>Type:</strong> Diesel</p>
-                        <p><strong>Serial No:</strong> SN-GPX100-001</p>
-                        <p><strong>Location:</strong> Warehouse A</p>
+                        <p><strong>Model:</strong> <span data-key="model">GenPro X100</span></p>
+                        <p><strong>Type:</strong> <span data-key="type">Diesel</span></p>
+                        <p><strong>Serial No:</strong> <span data-key="serial">SN-GPX100-001</span></p>
+                        <p><strong>Location:</strong> <span data-key="location">Warehouse A</span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Purchase & Warranty</h4>
-                        <p><strong>Purchase Date:</strong> 2022-01-15</p>
-                        <p><strong>Warranty End:</strong> 2025-01-15</p>
-                        <p><strong>Supplier:</strong> Global Power Inc.</p>
-                        <p><strong>Cost:</strong> $15,000</p>
+                        <p><strong>Purchase Date:</strong> <span data-key="purchaseDate">2022-01-15</span></p>
+                        <p><strong>Warranty End:</strong> <span data-key="warrantyEnd">2025-01-15</span></p>
+                        <p><strong>Supplier:</strong> <span data-key="supplier">Global Power Inc.</span></p>
+                        <p><strong>Cost:</strong> $<span data-key="cost">15,000</span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Operational Data</h4>
-                        <p><strong>Total Hours Run:</strong> 1,250 hrs</p>
-                        <p><strong>Last Service:</strong> 2024-03-10</p>
-                        <p><strong>Next Service Due:</strong> 2024-09-10</p>
-                        <p><strong>Status:</strong> <span class="status-badge status-active">Active</span></p>
+                        <p><strong>Total Hours Run:</strong> <span data-key="totalHoursRun">1,250 hrs</span></p>
+                        <p><strong>Last Service:</strong> <span data-key="lastService">2024-03-10</span></p>
+                        <p><strong>Next Service Due:</strong> <span data-key="nextService">2024-09-10</span></p>
+                        <p><strong>Status:</strong> <span class="status-badge" data-key="status">Active</span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Client Information</h4>
-                        <p><strong>Client:</strong> ABC Corp</p>
-                        <p><strong>Contact:</strong> jane.doe@abccorp.com</p>
-                        <p><strong>Client ID:</strong> CLI-001</p>
-                        <p><strong>Assigned Technician:</strong> John Doe</p>
+                        <p><strong>Client:</strong> <span data-key="client">ABC Corp</span></p>
+                        <p><strong>Contact:</strong> <span data-key="contact">jane.doe@abccorp.com</span></p>
+                        <p><strong>Client ID:</strong> <span data-key="clientId">CLI-001</span></p>
+                        <p><strong>Assigned Technician:</strong> <span data-key="assignedTech">John Doe</span></p>
                     </div>
                 </div>
 
                 <div class="notes-section">
                     <h4>Notes & History</h4>
                     <div class="detail-card">
-                        <p>Initial setup completed without issues. Generator is primary backup for critical systems. Regular load testing recommended.</p>
+                        <p data-key="notes">Initial setup completed without issues. Generator is primary backup for critical systems. Regular load testing recommended.</p>
                     </div>
                 </div>
             </div>
@@ -226,10 +189,10 @@
                         <div class="detail-card">
                             <h4>Basic Information</h4>
                             <label for="newGenModel">Model:</label>
-                            <input type="text" id="newGenModel" placeholder="e.g., GenPro X100" required>
+                            <input type="text" id="newGenModel" name="model" placeholder="e.g., GenPro X100" required>
 
                             <label for="newGenType">Type:</label>
-                            <select id="newGenType" required>
+                            <select id="newGenType" name="type" required>
                                 <option value="">Select Type</option>
                                 <option value="Diesel">Diesel</option>
                                 <option value="Gasoline">Gasoline</option>
@@ -238,10 +201,10 @@
                             </select>
 
                             <label for="newGenSerial">Serial Number:</label>
-                            <input type="text" id="newGenSerial" placeholder="e.g., SN-GPX100-004" required>
+                            <input type="text" id="newGenSerial" name="serial" placeholder="e.g., SN-GPX100-004" required>
 
                             <label for="newGenLocation">Location:</label>
-                            <input type="text" id="newGenLocation" placeholder="e.g., Site C, Building 1" required>
+                            <input type="text" id="newGenLocation" name="location" placeholder="e.g., Site C, Building 1" required>
                         </div>
                     </div>
 
@@ -250,16 +213,16 @@
                         <div class="detail-card">
                             <h4>Purchase & Warranty</h4>
                             <label for="newGenPurchaseDate">Purchase Date:</label>
-                            <input type="date" id="newGenPurchaseDate" required>
+                            <input type="date" id="newGenPurchaseDate" name="purchaseDate" required>
 
                             <label for="newGenWarrantyEnd">Warranty End Date:</label>
-                            <input type="date" id="newGenWarrantyEnd">
+                            <input type="date" id="newGenWarrantyEnd" name="warrantyEnd">
 
                             <label for="newGenSupplier">Supplier:</label>
-                            <input type="text" id="newGenSupplier" placeholder="e.g., Global Power Inc.">
+                            <input type="text" id="newGenSupplier" name="supplier" placeholder="e.g., Global Power Inc.">
 
                             <label for="newGenCost">Cost ($):</label>
-                            <input type="number" id="newGenCost" placeholder="e.g., 15000" min="0">
+                            <input type="number" id="newGenCost" name="cost" placeholder="e.g., 15000" min="0">
                         </div>
                     </div>
 
@@ -268,16 +231,16 @@
                         <div class="detail-card">
                             <h4>Operational Data</h4>
                             <label for="newGenTotalHours">Total Hours Run:</label>
-                            <input type="number" id="newGenTotalHours" placeholder="e.g., 1250" min="0">
+                            <input type="number" id="newGenTotalHours" name="totalHoursRun" placeholder="e.g., 1250" min="0">
 
                             <label for="newGenLastService">Last Service:</label>
-                            <input type="date" id="newGenLastService">
+                            <input type="date" id="newGenLastService" name="lastService">
 
                             <label for="newGenNextService">Next Service Due:</label>
-                            <input type="date" id="newGenNextService">
+                            <input type="date" id="newGenNextService" name="nextService">
 
                             <label for="newGenStatus">Status:</label>
-                            <select id="newGenStatus" required>
+                            <select id="newGenStatus" name="status" required>
                                 <option value="Active">Active</option>
                                 <option value="Inactive">Inactive</option>
                                 <option value="Under Maintenance">Under Maintenance</option>
@@ -290,16 +253,16 @@
                         <div class="detail-card">
                             <h4>Client Information</h4>
                             <label for="newGenClient">Client:</label>
-                            <input type="text" id="newGenClient" placeholder="e.g., ABC Corp">
+                            <input type="text" id="newGenClient" name="client" placeholder="e.g., ABC Corp">
 
                             <label for="newGenContact">Contact Email:</label>
-                            <input type="email" id="newGenContact" placeholder="e.g., client@example.com">
+                            <input type="email" id="newGenContact" name="contact" placeholder="e.g., client@example.com">
 
                             <label for="newGenClientId">Client ID:</label>
-                            <input type="text" id="newGenClientId" placeholder="e.g., CLI-002">
+                            <input type="text" id="newGenClientId" name="clientId" placeholder="e.g., CLI-002">
 
                             <label for="newGenAssignedTech">Assigned Technician:</label>
-                            <input type="text" id="newGenAssignedTech" placeholder="e.g., Jane Doe">
+                            <input type="text" id="newGenAssignedTech" name="assignedTech" placeholder="e.g., Jane Doe">
                         </div>
                     </div>
 
@@ -308,7 +271,7 @@
                         <div class="notes-section">
                             <h4>Notes</h4>
                             <div class="detail-card">
-                                <textarea id="newGenNotes" rows="4" placeholder="Any additional notes or history..."></textarea>
+                                <textarea id="newGenNotes" name="notes" rows="4" placeholder="Any additional notes or history..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -324,6 +287,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

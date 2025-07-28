@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenMaint Pro - Reports and analytics; Service Records</title> <!-- Updated title to match records.html functionality -->
+    <title>GenMaint Pro - Reports and analytics; Service Records</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js is included in script.js if needed, or can be kept here if specific to this page -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +17,6 @@
                 <p>Generator Maintenance System</p>
             </div>
         </div>
-        <!-- Added menu-button for mobile navigation consistency -->
         <button class="menu-button" aria-label="Menu" aria-expanded="false">
             <span class="menu-icon">
                 <span class="bar"></span>
@@ -29,12 +26,12 @@
             <span class="menu-text">Menu</span>
         </button>       
         <div class="header-container">
-            <div class="nav-container" id="main-nav"> <!-- Added id="main-nav" for script.js -->
-                <ul class="nav-links" role="menu"> <!-- Added role="menu" for accessibility -->
+            <div class="nav-container" id="main-nav">
+                <ul class="nav-links" role="menu">
                     <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                     <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
                     <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
-                    <li><a href="records.html" class="active"><i class="fas fa-clipboard-list"></i> Records</a></li> <!-- Set Records as active -->
+                    <li><a href="records.html"><i class="fas fa-clipboard-list"></i> Records</a></li>
                     <li><a href="parts.html"><i class="fas fa-cogs"></i> Parts</a></li>
                     <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
                 </ul>
@@ -44,7 +41,7 @@
                     <i class="fas fa-moon" id="darkModeIcon"></i>
                     <span id="darkModeText">Light Mode</span>
                 </button>
-                <a href="reports.html" class="reports-button"><i class="fas fa-chart-bar"></i> Reports</a>
+                <a href="reports.html" class="reports-button active"><i class="fas fa-chart-bar"></i> Reports</a>
                 <a href="signin.html" class="signing-button"><i class="fas fa-sign-in-alt"></i> Sign In</a>
                 <a href="clientportal.html" class="client-button"><i class="fas fa-user-circle"></i> Client Portal</a>
             </div>
@@ -99,16 +96,16 @@
                 <option value="Jane Smith">Jane Smith</option>
                 <option value="Robert Johnson">Robert Johnson</option>
                 <option value="Emily Davis">Emily Davis</option>
-                <option value="Michael Brown">Michael Brown</option> <!-- Added Michael Brown for consistency -->
+                <option value="Michael Brown">Michael Brown</option>
             </select>
             <input type="date" id="recordDateFrom" placeholder="From Date">
             <input type="date" id="recordDateTo" placeholder="To Date">
-            <button id="applyRecordsFilters"><i class="fas fa-filter"></i> Apply Filters</button> <!-- Updated ID -->
-            <button id="resetRecordsFilters"><i class="fas fa-redo"></i> Reset</button> <!-- Updated ID -->
+            <button id="applyRecordsFilters"><i class="fas fa-filter"></i> Apply Filters</button>
+            <button id="resetRecordsFilters"><i class="fas fa-redo"></i> Reset</button>
         </div>
 
         <div class="table-container">
-            <table id="recordsTable"> <!-- Moved ID to table tag -->
+            <table id="recordsTable">
                 <thead>
                     <tr>
                         <th class="sortable" data-sort="id">Service ID</th>
@@ -120,52 +117,8 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody> <!-- Removed ID from tbody -->
-                    <tr>
-                        <td>SRV-001</td>
-                        <td>GenPro X100</td>
-                        <td>2024-03-10</td>
-                        <td>2024-09-10</td>
-                        <td>John Doe</td>
-                        <td><span class="status-badge status-completed">Completed</span></td>
-                        <td><button class="action-button view-details" data-id="001"><i class="fas fa-eye"></i> View Details</button></td>
-                    </tr>
-                    <tr>
-                        <td>SRV-002</td>
-                        <td>PowerGen 5000</td>
-                        <td>2024-04-05</td>
-                        <td>2024-10-05</td>
-                        <td>Jane Smith</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                        <td><button class="action-button view-details" data-id="002"><i class="fas fa-eye"></i> View Details</button></td>
-                    </tr>
-                    <tr>
-                        <td>SRV-003</td>
-                        <td>EcoPower 3000</td>
-                        <td>2024-04-15</td>
-                        <td>2024-10-15</td>
-                        <td>Robert Johnson</td>
-                        <td><span class="status-badge status-overdue">Overdue</span></td>
-                        <td><button class="action-button view-details" data-id="003"><i class="fas fa-eye"></i> View Details</button></td>
-                    </tr>
-                    <tr>
-                        <td>SRV-004</td>
-                        <td>GenPro X200</td>
-                        <td>2024-05-02</td>
-                        <td>2024-11-02</td>
-                        <td>Emily Davis</td>
-                        <td><span class="status-badge status-completed">Completed</span></td>
-                        <td><button class="action-button view-details" data-id="004"><i class="fas fa-eye"></i> View Details</button></td>
-                    </tr>
-                    <tr>
-                        <td>SRV-005</td>
-                        <td>PowerGen 7000</td>
-                        <td>2024-05-18</td>
-                        <td>2024-11-18</td>
-                        <td>Michael Brown</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                        <td><button class="action-button view-details" data-id="005"><i class="fas fa-eye"></i> View Details</button></td>
-                    </tr>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
                 </tbody>
             </table>
         </div>
@@ -191,63 +144,48 @@
             <div class="detail-grid">
                 <div class="detail-card">
                     <h4>Service Information</h4>
-                    <p><strong>ID:</strong> SRV-001</p>
-                    <p><strong>Date:</strong> March 10, 2024</p>
-                    <p><strong>Duration:</strong> 2.5 hours</p>
-                    <p><strong>Type:</strong> Scheduled Maintenance</p>
+                    <p><strong>ID:</strong> <span data-key="id">SRV-001</span></p>
+                    <p><strong>Date:</strong> <span data-key="date">March 10, 2024</span></p>
+                    <p><strong>Duration:</strong> <span data-key="duration">2.5 hours</span></p>
+                    <p><strong>Type:</strong> <span data-key="type">Scheduled Maintenance</span></p>
                 </div>
                 
                 <div class="detail-card">
                     <h4>Generator Details</h4>
-                    <p><strong>Model:</strong> GenPro X100</p>
-                    <p><strong>Serial No:</strong> SN-GPX100-001</p>
-                    <p><strong>Location:</strong> Warehouse A</p>
-                    <p><strong>Hours Run:</strong> 1,250 hrs</p>
+                    <p><strong>Model:</strong> <span data-key="generator">GenPro X100</span></p>
+                    <p><strong>Serial No:</strong> <span data-key="serial">SN-GPX100-001</span></p>
+                    <p><strong>Location:</strong> <span data-key="location">Warehouse A</span></p>
+                    <p><strong>Hours Run:</strong> <span data-key="hoursRun">1,250 hrs</span></p>
                 </div>
                 
                 <div class="detail-card">
                     <h4>Technician</h4>
-                    <p><strong>Name:</strong> John Doe</p>
-                    <p><strong>Contact:</strong> john.doe@example.com</p>
-                    <p><strong>Team:</strong> Maintenance Crew A</p>
-                    <p><strong>Certification:</strong> Level 3 Generator Tech</p>
+                    <p><strong>Name:</strong> <span data-key="tech">John Doe</span></p>
+                    <p><strong>Contact:</strong> <span data-key="techContact">john.doe@example.com</span></p>
+                    <p><strong>Team:</strong> <span data-key="techTeam">Maintenance Crew A</span></p>
+                    <p><strong>Certification:</strong> <span data-key="techCertification">Level 3 Generator Tech</span></p>
                 </div>
                 
                 <div class="detail-card">
                     <h4>Service Details</h4>
-                    <p><strong>Status:</strong> <span class="status-badge status-completed">Completed</span></p>
-                    <p><strong>Next Service:</strong> September 10, 2024</p>
-                    <p><strong>Service Cost:</strong> $350.00</p>
-                    <p><strong>Work Order:</strong> WO-2024-001</p>
+                    <p><strong>Status:</strong> <span class="status-badge" data-key="status">Completed</span></p>
+                    <p><strong>Next Service:</strong> <span data-key="next">September 10, 2024</span></p>
+                    <p><strong>Service Cost:</strong> <span data-key="serviceCost">$350.00</span></p>
+                    <p><strong>Work Order:</strong> <span data-key="workOrder">WO-2024-001</span></p>
                 </div>
             </div>
             
             <div class="parts-list">
                 <h4>Parts Used</h4>
-                <ul>
-                    <li>
-                        <span>Oil Filter - OF-12345</span>
-                        <span>2 × $15.00 = $30.00</span>
-                    </li>
-                    <li>
-                        <span>Air Filter - AF-67890</span>
-                        <span>1 × $25.00 = $25.00</span>
-                    </li>
-                    <li>
-                        <span>Synthetic Oil - SO-5W30</span>
-                        <span>5L × $12.00 = $60.00</span>
-                    </li>
-                    <li>
-                        <span>Spark Plugs - SP-456</span>
-                        <span>4 × $8.00 = $32.00</span>
-                    </li>
+                <ul data-key="partsUsed">
+                    <!-- Parts will be populated by JavaScript -->
                 </ul>
             </div>
             
             <div class="notes-section">
                 <h4>Technician Notes</h4>
                 <div class="detail-card">
-                    <p>Generator was running smoothly with no abnormal vibrations. Oil change completed, filters replaced, and all connections checked. Battery tested at 95% capacity. Recommend monitoring oil consumption over next 100 hours.</p>
+                    <p data-key="notes">Generator was running smoothly with no abnormal vibrations. Oil change completed, filters replaced, and all connections checked. Battery tested at 95% capacity. Recommend monitoring oil consumption over next 100 hours.</p>
                 </div>
             </div>
         </div>
@@ -258,7 +196,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Keep Chart.js if specific charts are on this page -->
-<script src="script.js"></script> <!-- Shared script.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>

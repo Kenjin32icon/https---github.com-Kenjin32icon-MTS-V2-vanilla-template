@@ -118,46 +118,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example Row - Data will be loaded dynamically via JavaScript -->
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>+1234567890</td>
-                            <td>Technician</td>
-                            <td>15</td>
-                            <td><span class="status-badge active-status">Active</span></td>
-                            <td>
-                                <button class="action-button view-details" data-id="tech-001"><i class="fas fa-eye"></i> View</button>
-                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jane Smith</td>
-                            <td>jane.smith@example.com</td>
-                            <td>+0987654321</td>
-                            <td>Supervisor</td>
-                            <td>12</td>
-                            <td><span class="status-badge active-status">Active</span></td>
-                            <td>
-                                <button class="action-button view-details" data-id="tech-002"><i class="fas fa-eye"></i> View</button>
-                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Robert Johnson</td>
-                            <td>robert.j@example.com</td>
-                            <td>+1122334455</td>
-                            <td>Technician</td>
-                            <td>8</td>
-                            <td><span class="status-badge inactive-status">Inactive</span></td>
-                            <td>
-                                <button class="action-button view-details" data-id="tech-003"><i class="fas fa-eye"></i> View</button>
-                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
-                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
-                            </td>
-                        </tr>
+                        <!-- Data will be populated dynamically via JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -184,41 +145,41 @@
                 <div class="detail-grid">
                     <div class="detail-card">
                         <h4>Personal Information</h4>
-                        <p><strong>Name:</strong> John Doe</p>
-                        <p><strong>Email:</strong> john.doe@example.com</p>
-                        <p><strong>Phone:</strong> +1234567890</p>
-                        <p><strong>Address:</strong> 123 Main St, Anytown</p>
+                        <p><strong>Name:</strong> <span data-key="name">John Doe</span></p>
+                        <p><strong>Email:</strong> <span data-key="email">john.doe@example.com</span></p>
+                        <p><strong>Phone:</strong> <span data-key="phone">+1234567890</span></p>
+                        <p><strong>Address:</strong> <span data-key="address">123 Main St, Anytown</span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Employment Details</h4>
-                        <p><strong>Employee ID:</strong> EMP-001</p>
-                        <p><strong>Role:</strong> Technician</p>
-                        <p><strong>Hire Date:</strong> 2020-05-10</p>
-                        <p><strong>Team:</strong> Maintenance Crew A</p>
+                        <p><strong>Employee ID:</strong> <span data-key="employeeId">EMP-001</span></p>
+                        <p><strong>Role:</strong> <span data-key="role">Technician</span></p>
+                        <p><strong>Hire Date:</strong> <span data-key="hireDate">2020-05-10</span></p>
+                        <p><strong>Team:</strong> <span data-key="team">Maintenance Crew A</span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Performance & Skills</h4>
-                        <p><strong>Assigned Services:</strong> 15</p>
-                        <p><strong>Completed Services (Mo):</strong> 10</p>
-                        <p><strong>Certifications:</strong> Level 3 Generator Tech, Electrical Safety</p>
-                        <p><strong>Specialties:</strong> Diesel Generators, Troubleshooting</p>
+                        <p><strong>Assigned Services:</strong> <span data-key="assignedServices">15</span></p>
+                        <p><strong>Completed Services (Mo):</strong> <span data-key="completedServicesMo">10</span></p>
+                        <p><strong>Certifications:</strong> <span data-key="certifications">Level 3 Generator Tech, Electrical Safety</span></p>
+                        <p><strong>Specialties:</strong> <span data-key="specialties">Diesel Generators, Troubleshooting</span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Status & Availability</h4>
-                        <p><strong>Status:</strong> <span class="status-badge active-status">Active</span></p>
-                        <p><strong>Availability:</strong> Full-time</p>
-                        <p><strong>Last Activity:</strong> 2024-05-20</p>
-                        <p><strong>Next Assignment:</strong> 2024-05-22 (GenPro X100)</p>
+                        <p><strong>Status:</strong> <span class="status-badge" data-key="status">Active</span></p>
+                        <p><strong>Availability:</strong> <span data-key="availability">Full-time</span></p>
+                        <p><strong>Last Activity:</strong> <span data-key="lastActivity">2024-05-20</span></p>
+                        <p><strong>Next Assignment:</strong> <span data-key="nextAssignment">2024-05-22 (GenPro X100)</span></p>
                     </div>
                 </div>
 
                 <div class="notes-section">
                     <h4>Notes</h4>
                     <div class="detail-card">
-                        <p>Consistently high performer. Excellent problem-solving skills. Needs to renew Electrical Safety certification by end of year.</p>
+                        <p data-key="notes">Consistently high performer. Excellent problem-solving skills. Needs to renew Electrical Safety certification by end of year.</p>
                     </div>
                 </div>
             </div>
@@ -248,19 +209,19 @@
                         <div class="detail-grid">
                             <div>
                                 <label for="techName">Full Name</label>
-                                <input type="text" id="techName" name="techName" required>
+                                <input type="text" id="techName" name="name" required>
                             </div>
                             <div>
                                 <label for="techEmail">Email</label>
-                                <input type="email" id="techEmail" name="techEmail" required>
+                                <input type="email" id="techEmail" name="email" required>
                             </div>
                             <div>
                                 <label for="techPhone">Phone Number</label>
-                                <input type="text" id="techPhone" name="techPhone">
+                                <input type="text" id="techPhone" name="phone">
                             </div>
                             <div>
                                 <label for="techAddress">Address</label>
-                                <input type="text" id="techAddress" name="techAddress">
+                                <input type="text" id="techAddress" name="address">
                             </div>
                         </div>
                     </div>
@@ -269,11 +230,11 @@
                         <div class="detail-grid">
                             <div>
                                 <label for="techEmployeeId">Employee ID</label>
-                                <input type="text" id="techEmployeeId" name="techEmployeeId" required>
+                                <input type="text" id="techEmployeeId" name="employeeId" required>
                             </div>
                             <div>
                                 <label for="techRole">Role</label>
-                                <select id="techRole" name="techRole" required>
+                                <select id="techRole" name="role" required>
                                     <option value="">Select Role</option>
                                     <option value="Technician">Technician</option>
                                     <option value="Supervisor">Supervisor</option>
@@ -282,15 +243,15 @@
                             </div>
                             <div>
                                 <label for="techHireDate">Hire Date</label>
-                                <input type="date" id="techHireDate" name="techHireDate" required>
+                                <input type="date" id="techHireDate" name="hireDate" required>
                             </div>
                             <div>
                                 <label for="techTeam">Team</label>
-                                <input type="text" id="techTeam" name="techTeam">
+                                <input type="text" id="techTeam" name="team">
                             </div>
                             <div>
                                 <label for="techStatus">Status</label>
-                                <select id="techStatus" name="techStatus" required>
+                                <select id="techStatus" name="status" required>
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
                                 </select>
@@ -302,15 +263,15 @@
                         <div class="detail-grid">
                             <div>
                                 <label for="techCertifications">Certifications (comma-separated)</label>
-                                <textarea id="techCertifications" name="techCertifications" rows="3"></textarea>
+                                <textarea id="techCertifications" name="certifications" rows="3"></textarea>
                             </div>
                             <div>
                                 <label for="techSpecialties">Specialties (comma-separated)</label>
-                                <textarea id="techSpecialties" name="techSpecialties" rows="3"></textarea>
+                                <textarea id="techSpecialties" name="specialties" rows="3"></textarea>
                             </div>
                             <div>
                                 <label for="techNotes">Notes</label>
-                                <textarea id="techNotes" name="techNotes" rows="3"></textarea>
+                                <textarea id="techNotes" name="notes" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -325,6 +286,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
