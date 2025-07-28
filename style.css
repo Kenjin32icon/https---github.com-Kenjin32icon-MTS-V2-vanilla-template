@@ -1228,7 +1228,9 @@ td {
 
 /* Adjust input/select styles within the modal for better fit */
 #addGeneratorForm label, /* Combined with #addServiceForm */
-#addServiceForm label {
+#addServiceForm label,
+#addPartForm label,
+#addTechnicianForm label { /* NEW: Added for addTechnicianForm */
     display: block;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -1249,7 +1251,19 @@ td {
 #addServiceForm input[type="date"],
 #addServiceForm input[type="time"], /* Added for schedule form */
 #addServiceForm select,
-#addServiceForm textarea {
+#addServiceForm textarea,
+#addPartForm input[type="text"],
+#addPartForm input[type="email"],
+#addPartForm input[type="number"],
+#addPartForm input[type="date"],
+#addPartForm select,
+#addPartForm textarea,
+#addTechnicianForm input[type="text"], /* NEW: Added for addTechnicianForm */
+#addTechnicianForm input[type="email"],
+#addTechnicianForm input[type="number"],
+#addTechnicianForm input[type="date"],
+#addTechnicianForm select,
+#addTechnicianForm textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border);
@@ -1265,7 +1279,13 @@ td {
 #addGeneratorForm textarea:focus,
 #addServiceForm input:focus,
 #addServiceForm select:focus,
-#addServiceForm textarea:focus {
+#addServiceForm textarea:focus,
+#addPartForm input:focus,
+#addPartForm select:focus,
+#addPartForm textarea:focus,
+#addTechnicianForm input:focus, /* NEW: Added for addTechnicianForm */
+#addTechnicianForm select:focus,
+#addTechnicianForm textarea:focus {
     border-color: var(--primary);
     outline: none;
     box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2);
@@ -1294,7 +1314,13 @@ td {
 .dark-mode #addGeneratorForm textarea,
 .dark-mode #addServiceForm input,
 .dark-mode #addServiceForm select,
-.dark-mode #addServiceForm textarea {
+.dark-mode #addServiceForm textarea,
+.dark-mode #addPartForm input,
+.dark-mode #addPartForm select,
+.dark-mode #addPartForm textarea,
+.dark-mode #addTechnicianForm input, /* NEW: Added for addTechnicianForm */
+.dark-mode #addTechnicianForm select,
+.dark-mode #addTechnicianForm textarea {
     background-color: var(--bg);
     border-color: var(--border);
     color: var(--text);
@@ -1305,7 +1331,13 @@ td {
 .dark-mode #addGeneratorForm textarea:focus,
 .dark-mode #addServiceForm input:focus,
 .dark-mode #addServiceForm select:focus,
-.dark-mode #addServiceForm textarea:focus {
+.dark-mode #addServiceForm textarea:focus,
+.dark-mode #addPartForm input:focus,
+.dark-mode #addPartForm select:focus,
+.dark-mode #addPartForm textarea:focus,
+.dark-mode #addTechnicianForm input:focus, /* NEW: Added for addTechnicianForm */
+.dark-mode #addTechnicianForm select:focus,
+.dark-mode #addTechnicianForm textarea:focus {
     box-shadow: 0 0 0 3px rgba(86, 119, 252, 0.2);
 }
 

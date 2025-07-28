@@ -136,6 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const generatorDetailsModal = document.getElementById('generatorDetailsModal');
     const technicianDetailsModal = document.getElementById('technicianDetailsModal'); // New modal for team.html
     const addGeneratorModal = document.getElementById('addGeneratorModal'); // New modal for adding generator
+    const addPartModal = document.getElementById('addPartModal'); // New modal for adding part
+    const addTechnicianModal = document.getElementById('addTechnicianModal'); // NEW: Modal for adding technician
 
     // Generic modal open/close logic
     const setupModal = (modalElement) => {
@@ -151,6 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     showGeneratorFormSection('basic');
                     document.getElementById('addGeneratorForm').reset(); // Clear form fields
                 }
+                if (modalElement.id === 'addPartModal') {
+                    showPartFormSection('basic-part');
+                    document.getElementById('addPartForm').reset(); // Clear form fields
+                }
+                // NEW: Reset form sections for addTechnicianModal
+                if (modalElement.id === 'addTechnicianModal') {
+                    showTechnicianFormSection('personal');
+                    document.getElementById('addTechnicianForm').reset(); // Clear form fields
+                }
             });
         });
 
@@ -162,6 +173,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     showGeneratorFormSection('basic');
                     document.getElementById('addGeneratorForm').reset(); // Clear form fields
                 }
+                if (modalElement.id === 'addPartModal') {
+                    showPartFormSection('basic-part');
+                    document.getElementById('addPartForm').reset(); // Clear form fields
+                }
+                // NEW: Reset form sections for addTechnicianModal
+                if (modalElement.id === 'addTechnicianModal') {
+                    showTechnicianFormSection('personal');
+                    document.getElementById('addTechnicianForm').reset(); // Clear form fields
+                }
             }
         });
     };
@@ -171,6 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModal(generatorDetailsModal);
     setupModal(technicianDetailsModal); // Setup new modal
     setupModal(addGeneratorModal); // Setup new add generator modal
+    setupModal(addPartModal); // Setup new add part modal
+    setupModal(addTechnicianModal); // NEW: Setup new add technician modal
 
     // Attach event listeners for 'view-details' buttons
     const viewDetailsBtns = document.querySelectorAll('.view-details');
@@ -213,42 +235,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Event listener for "Add New Part" button
+    const addNewPartBtn = document.getElementById('addNewPartBtn');
+    if (addNewPartBtn) {
+        addNewPartBtn.addEventListener('click', () => {
+            if (addPartModal) {
+                addPartModal.style.display = 'flex';
+                showPartFormSection('basic-part'); // Ensure first section is shown on open
+            }
+        });
+    }
+
+    // NEW: Event listener for "Add New Technician" button
+    const addNewTechnicianBtn = document.getElementById('addNewTechnicianBtn');
+    if (addNewTechnicianBtn) {
+        addNewTechnicianBtn.addEventListener('click', () => {
+            if (addTechnicianModal) {
+                addTechnicianModal.style.display = 'flex';
+                showTechnicianFormSection('personal'); // Ensure first section is shown on open
+            }
+        });
+    }
+
     // New Generator Form Section Navigation Logic
-    const formSections = document.querySelectorAll('.form-section');
-    const navTabs = document.querySelectorAll('.nav-tab');
+    const genFormSections = document.querySelectorAll('#addGeneratorModal .form-section');
+    const genNavTabs = document.querySelectorAll('#addGeneratorModal .nav-tab');
     const prevGenSectionBtn = document.getElementById('prevGenSectionBtn');
     const nextGenSectionBtn = document.getElementById('nextGenSectionBtn');
     const submitNewGenFormBtn = document.getElementById('submitNewGenFormBtn');
 
-    let currentSectionIndex = 0;
+    let currentGenSectionIndex = 0;
 
     const showGeneratorFormSection = (sectionId) => {
-        formSections.forEach(section => {
+        genFormSections.forEach(section => {
             section.classList.remove('active');
         });
-        navTabs.forEach(tab => {
+        genNavTabs.forEach(tab => {
             tab.classList.remove('active');
         });
 
         const targetSection = document.getElementById(`section-${sectionId}`);
         if (targetSection) {
             targetSection.classList.add('active');
-            const targetTabIndex = Array.from(formSections).indexOf(targetSection);
-            if (navTabs[targetTabIndex]) {
-                navTabs[targetTabIndex].classList.add('active');
+            const targetTabIndex = Array.from(genFormSections).indexOf(targetSection);
+            if (genNavTabs[targetTabIndex]) {
+                genNavTabs[targetTabIndex].classList.add('active');
             }
-            currentSectionIndex = targetTabIndex;
+            currentGenSectionIndex = targetTabIndex;
             updateGeneratorNavButtons();
         }
     };
 
     const updateGeneratorNavButtons = () => {
-        prevGenSectionBtn.style.display = currentSectionIndex === 0 ? 'none' : 'inline-flex';
-        nextGenSectionBtn.style.display = currentSectionIndex === formSections.length - 1 ? 'none' : 'inline-flex';
-        submitNewGenFormBtn.style.display = currentSectionIndex === formSections.length - 1 ? 'inline-flex' : 'none';
+        if (prevGenSectionBtn) prevGenSectionBtn.style.display = currentGenSectionIndex === 0 ? 'none' : 'inline-flex';
+        if (nextGenSectionBtn) nextGenSectionBtn.style.display = currentGenSectionIndex === genFormSections.length - 1 ? 'none' : 'inline-flex';
+        if (submitNewGenFormBtn) submitNewGenFormBtn.style.display = currentGenSectionIndex === genFormSections.length - 1 ? 'inline-flex' : 'none';
     };
 
-    navTabs.forEach(tab => {
+    genNavTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const sectionId = tab.dataset.section;
             showGeneratorFormSection(sectionId);
@@ -257,9 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (prevGenSectionBtn) {
         prevGenSectionBtn.addEventListener('click', () => {
-            if (currentSectionIndex > 0) {
-                currentSectionIndex--;
-                showGeneratorFormSection(formSections[currentSectionIndex].id.replace('section-', ''));
+            if (currentGenSectionIndex > 0) {
+                currentGenSectionIndex--;
+                showGeneratorFormSection(genFormSections[currentGenSectionIndex].id.replace('section-', ''));
             }
         });
     }
@@ -267,17 +311,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nextGenSectionBtn) {
         nextGenSectionBtn.addEventListener('click', () => {
             // Optional: Add validation here before moving to next section
-            if (currentSectionIndex < formSections.length - 1) {
-                currentSectionIndex++;
-                showGeneratorFormSection(formSections[currentSectionIndex].id.replace('section-', ''));
+            if (currentGenSectionIndex < genFormSections.length - 1) {
+                currentGenSectionIndex++;
+                showGeneratorFormSection(genFormSections[currentGenSectionIndex].id.replace('section-', ''));
             }
         });
     }
 
-    // Initial state for buttons when modal opens
+    // Initial state for buttons when generator modal opens
     updateGeneratorNavButtons();
 
-    // Handle form submission (this would typically involve AJAX)
+    // Handle generator form submission (this would typically involve AJAX)
     const addGeneratorForm = document.getElementById('addGeneratorForm');
     if (addGeneratorForm) {
         addGeneratorForm.addEventListener('submit', (e) => {
@@ -287,6 +331,160 @@ document.addEventListener('DOMContentLoaded', () => {
             addGeneratorModal.style.display = 'none';
             addGeneratorForm.reset(); // Clear form fields after submission
             showGeneratorFormSection('basic'); // Reset to first section
+        });
+    }
+
+    // New Part Form Section Navigation Logic
+    const partFormSections = document.querySelectorAll('#addPartModal .form-section');
+    const partNavTabs = document.querySelectorAll('#addPartModal .nav-tab');
+    const prevPartSectionBtn = document.getElementById('prevPartSectionBtn');
+    const nextPartSectionBtn = document.getElementById('nextPartSectionBtn');
+    const submitNewPartFormBtn = document.getElementById('submitNewPartFormBtn');
+
+    let currentPartSectionIndex = 0;
+
+    const showPartFormSection = (sectionId) => {
+        partFormSections.forEach(section => {
+            section.classList.remove('active');
+        });
+        partNavTabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        const targetSection = document.getElementById(`section-${sectionId}`);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            const targetTabIndex = Array.from(partFormSections).indexOf(targetSection);
+            if (partNavTabs[targetTabIndex]) {
+                partNavTabs[targetTabIndex].classList.add('active');
+            }
+            currentPartSectionIndex = targetTabIndex;
+            updatePartNavButtons();
+        }
+    };
+
+    const updatePartNavButtons = () => {
+        if (prevPartSectionBtn) prevPartSectionBtn.style.display = currentPartSectionIndex === 0 ? 'none' : 'inline-flex';
+        if (nextPartSectionBtn) nextPartSectionBtn.style.display = currentPartSectionIndex === partFormSections.length - 1 ? 'none' : 'inline-flex';
+        if (submitNewPartFormBtn) submitNewPartFormBtn.style.display = currentPartSectionIndex === partFormSections.length - 1 ? 'none' : 'inline-flex';
+    };
+
+    partNavTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const sectionId = tab.dataset.section;
+            showPartFormSection(sectionId);
+        });
+    });
+
+    if (prevPartSectionBtn) {
+        prevPartSectionBtn.addEventListener('click', () => {
+            if (currentPartSectionIndex > 0) {
+                currentPartSectionIndex--;
+                showPartFormSection(partFormSections[currentPartSectionIndex].id.replace('section-', ''));
+            }
+        });
+    }
+
+    if (nextPartSectionBtn) {
+        nextPartSectionBtn.addEventListener('click', () => {
+            // Optional: Add validation here before moving to next section
+            if (currentPartSectionIndex < partFormSections.length - 1) {
+                currentPartSectionIndex++;
+                showPartFormSection(partFormSections[currentPartSectionIndex].id.replace('section-', ''));
+            }
+        });
+    }
+
+    // Initial state for buttons when part modal opens
+    updatePartNavButtons();
+
+    // Handle part form submission (this would typically involve AJAX)
+    const addPartForm = document.getElementById('addPartForm');
+    if (addPartForm) {
+        addPartForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('New Part Added! (Form submission simulated)');
+            // Here you would collect all form data and send it to a server
+            addPartModal.style.display = 'none';
+            addPartForm.reset(); // Clear form fields after submission
+            showPartFormSection('basic-part'); // Reset to first section
+        });
+    }
+
+    // NEW: New Technician Form Section Navigation Logic
+    const techFormSections = document.querySelectorAll('#addTechnicianModal .form-section');
+    const techNavTabs = document.querySelectorAll('#addTechnicianModal .nav-tab');
+    const prevTechSectionBtn = document.getElementById('prevTechSectionBtn');
+    const nextTechSectionBtn = document.getElementById('nextTechSectionBtn');
+    const submitNewTechFormBtn = document.getElementById('submitNewTechFormBtn');
+
+    let currentTechSectionIndex = 0;
+
+    const showTechnicianFormSection = (sectionId) => {
+        techFormSections.forEach(section => {
+            section.classList.remove('active');
+        });
+        techNavTabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        const targetSection = document.getElementById(`section-${sectionId}`);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            const targetTabIndex = Array.from(techFormSections).indexOf(targetSection);
+            if (techNavTabs[targetTabIndex]) {
+                techNavTabs[targetTabIndex].classList.add('active');
+            }
+            currentTechSectionIndex = targetTabIndex;
+            updateTechnicianNavButtons();
+        }
+    };
+
+    const updateTechnicianNavButtons = () => {
+        if (prevTechSectionBtn) prevTechSectionBtn.style.display = currentTechSectionIndex === 0 ? 'none' : 'inline-flex';
+        if (nextTechSectionBtn) nextTechSectionBtn.style.display = currentTechSectionIndex === techFormSections.length - 1 ? 'none' : 'inline-flex';
+        if (submitNewTechFormBtn) submitNewTechFormBtn.style.display = currentTechSectionIndex === techFormSections.length - 1 ? 'inline-flex' : 'none';
+    };
+
+    techNavTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const sectionId = tab.dataset.section;
+            showTechnicianFormSection(sectionId);
+        });
+    });
+
+    if (prevTechSectionBtn) {
+        prevTechSectionBtn.addEventListener('click', () => {
+            if (currentTechSectionIndex > 0) {
+                currentTechSectionIndex--;
+                showTechnicianFormSection(techFormSections[currentTechSectionIndex].id.replace('section-', ''));
+            }
+        });
+    }
+
+    if (nextTechSectionBtn) {
+        nextTechSectionBtn.addEventListener('click', () => {
+            // Optional: Add validation here before moving to next section
+            if (currentTechSectionIndex < techFormSections.length - 1) {
+                currentTechSectionIndex++;
+                showTechnicianFormSection(techFormSections[currentTechSectionIndex].id.replace('section-', ''));
+            }
+        });
+    }
+
+    // Initial state for buttons when technician modal opens
+    updateTechnicianNavButtons();
+
+    // Handle technician form submission (this would typically involve AJAX)
+    const addTechnicianForm = document.getElementById('addTechnicianForm');
+    if (addTechnicianForm) {
+        addTechnicianForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('New Technician Added! (Form submission simulated)');
+            // Here you would collect all form data and send it to a server
+            addTechnicianModal.style.display = 'none';
+            addTechnicianForm.reset(); // Clear form fields after submission
+            showTechnicianFormSection('personal'); // Reset to first section
         });
     }
 

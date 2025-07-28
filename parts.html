@@ -58,7 +58,7 @@
                     <h2 id="parts-heading"><i class="fas fa-cogs"></i> Parts Inventory</h2>
                     <p>Manage spare parts stock and usage.</p>
                 </div>
-                <button class="reports-button"><i class="fas fa-plus-circle"></i> Add New Part</button>
+                <button class="reports-button" id="addNewPartBtn"><i class="fas fa-plus-circle"></i> Add New Part</button>
             </div>
 
             <!-- Stat Cards for Parts Inventory -->
@@ -233,6 +233,127 @@
             <div class="modal-footer">
                 <button class="btn-close">Close</button>
                 <button class="btn-print"><i class="fas fa-print"></i> Print Part Info</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Part Modal - IMPROVED -->
+    <div class="modal" id="addPartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Part</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-navigation-tabs">
+                    <button class="nav-tab active" data-section="basic-part">Basic Info</button>
+                    <button class="nav-tab" data-section="stock-cost">Stock & Cost</button>
+                    <button class="nav-tab" data-section="supplier-usage">Supplier & Usage</button>
+                    <button class="nav-tab" data-section="stock-status">Stock Status</button>
+                    <button class="nav-tab" data-section="part-notes">Notes</button>
+                </div>
+
+                <form id="addPartForm">
+                    <!-- Section 1: Basic Information -->
+                    <div class="form-section active" id="section-basic-part">
+                        <div class="detail-card">
+                            <h4>Basic Information</h4>
+                            <label for="newPartName">Part Name:</label>
+                            <input type="text" id="newPartName" placeholder="e.g., Oil Filter" required>
+
+                            <label for="newPartNumber">Part Number:</label>
+                            <input type="text" id="newPartNumber" placeholder="e.g., OF-12345" required>
+
+                            <label for="newPartCategory">Category:</label>
+                            <select id="newPartCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Filters">Filters</option>
+                                <option value="Fluids">Fluids</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Engine Components">Engine Components</option>
+                                <option value="Fuel System">Fuel System</option>
+                                <option value="Cooling System">Cooling System</option>
+                            </select>
+
+                            <label for="newPartDescription">Description:</label>
+                            <textarea id="newPartDescription" rows="3" placeholder="e.g., Standard oil filter for GenPro X100 series."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Stock & Cost -->
+                    <div class="form-section" id="section-stock-cost">
+                        <div class="detail-card">
+                            <h4>Stock & Cost</h4>
+                            <label for="newPartQuantity">Quantity in Stock:</label>
+                            <input type="number" id="newPartQuantity" placeholder="e.g., 50" min="0" required>
+
+                            <label for="newPartMinStock">Minimum Stock Level:</label>
+                            <input type="number" id="newPartMinStock" placeholder="e.g., 10" min="0">
+
+                            <label for="newPartCost">Cost per Unit ($):</label>
+                            <input type="number" id="newPartCost" placeholder="e.g., 15.00" min="0" step="0.01" required>
+
+                            <label for="newPartTotalValue">Total Value ($):</label>
+                            <input type="number" id="newPartTotalValue" placeholder="Calculated automatically" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Supplier & Usage -->
+                    <div class="form-section" id="section-supplier-usage">
+                        <div class="detail-card">
+                            <h4>Supplier & Usage</h4>
+                            <label for="newPartSupplier">Preferred Supplier:</label>
+                            <input type="text" id="newPartSupplier" placeholder="e.g., FilterCo">
+
+                            <label for="newPartLastOrdered">Last Ordered Date:</label>
+                            <input type="date" id="newPartLastOrdered">
+
+                            <label for="newPartUsedLastMonth">Units Used Last Month:</label>
+                            <input type="number" id="newPartUsedLastMonth" placeholder="e.g., 15" min="0">
+
+                            <label for="newPartCompatibleGens">Compatible Generators (comma-separated):</label>
+                            <input type="text" id="newPartCompatibleGens" placeholder="e.g., GenPro X100, GenPro X200">
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Stock Status -->
+                    <div class="form-section" id="section-stock-status">
+                        <div class="detail-card">
+                            <h4>Stock Status</h4>
+                            <label for="newPartStatus">Current Status:</label>
+                            <select id="newPartStatus" required>
+                                <option value="In Stock">In Stock</option>
+                                <option value="Low Stock">Low Stock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                            </select>
+
+                            <label for="newPartLocation">Warehouse Location:</label>
+                            <input type="text" id="newPartLocation" placeholder="e.g., Warehouse Shelf A3">
+
+                            <label for="newPartReorderPoint">Reorder Point:</label>
+                            <input type="number" id="newPartReorderPoint" placeholder="e.g., 15" min="0">
+
+                            <label for="newPartLeadTime">Lead Time (days):</label>
+                            <input type="number" id="newPartLeadTime" placeholder="e.g., 3-5" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Notes -->
+                    <div class="form-section" id="section-part-notes">
+                        <div class="notes-section">
+                            <h4>Notes</h4>
+                            <div class="detail-card">
+                                <textarea id="newPartNotes" rows="4" placeholder="Any additional notes or history..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-close">Cancel</button>
+                <button class="btn-print" id="prevPartSectionBtn" style="display: none;"><i class="fas fa-chevron-left"></i> Previous</button>
+                <button class="btn-print" id="nextPartSectionBtn">Next <i class="fas fa-chevron-right"></i></button>
+                <button class="btn-print" type="submit" form="addPartForm" id="submitNewPartFormBtn" style="display: none;"><i class="fas fa-plus-circle"></i> Add Part</button>
             </div>
         </div>
     </div>
