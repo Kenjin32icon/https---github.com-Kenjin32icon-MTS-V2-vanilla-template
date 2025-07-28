@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenMaint Pro - Parts Inventory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for parts page - these are already in style.css based on reports.html */
+        /* Keeping them here for clarity, but they should ideally be in style.css */
+        .table-container {
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        .action-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex; /* Added for icon alignment */
+            align-items: center; /* Added for icon alignment */
+            gap: 5px; /* Added for icon spacing */
+            margin-right: 5px; /* Spacing between buttons */
+        }
+        .action-button.edit-button {
+            background-color: var(--completed-color); /* Green, consistent with status-completed */
+        }
+        .action-button.delete-button {
+            background-color: var(--overdue-color); /* Red, consistent with status-overdue */
+        }
+        .status-badge.low-stock {
+            background-color: var(--overdue-color); /* Red for low stock */
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .status-badge.in-stock {
+            background-color: var(--completed-color); /* Green for in stock */
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-placeholder" aria-label="GenMaint Pro Logo">GP</div>
+                <div class="title">
+                    <h1>GenMaint Pro</h1>
+                    <p>Generator Maintenance System</p>
+                </div>
+            </div>
+            <div class="header-container">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
+                        <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                        <li><a href="records.html"><i class="fas fa-clipboard-list"></i> Records</a></li>
+                        <li><a href="parts.html" class="active"><i class="fas fa-cogs"></i> Parts</a></li>
+                        <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+                    </ul>
+                </div>
+                <div class="nav-actions">
+                    <button class="toggle-button" id="darkModeToggle">
+                        <i class="fas fa-moon" id="darkModeIcon"></i>
+                        <span id="darkModeText">Light Mode</span>
+                    </button>
+                    <a href="reports.html" class="reports-button"><i class="fas fa-chart-bar"></i> Reports</a>
+                    <a href="signin.html" class="signing-button"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                    <a href="clientportal.html" class="client-button"><i class="fas fa-user-circle"></i> Client Portal</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <section class="parts-inventory service-records" aria-labelledby="parts-heading">
+            <div class="section-header">
+                <div>
+                    <h2 id="parts-heading"><i class="fas fa-cogs"></i> Parts Inventory</h2>
+                    <p>Manage spare parts stock and usage.</p>
+                </div>
+                <button class="reports-button"><i class="fas fa-plus-circle"></i> Add New Part</button>
+            </div>
+
+            <!-- Stat Cards for Parts Inventory -->
+            <div class="stats-container">
+                <div class="stat-card completed">
+                    <div class="stat-label"><i class="fas fa-boxes"></i> Total Unique Parts</div>
+                    <div class="stat-value">75</div>
+                    <div class="stat-trend">↑ 5 new this month</div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="stat-label"><i class="fas fa-exclamation-circle"></i> Low Stock Items</div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-trend">Action required</div>
+                </div>
+                <div class="stat-card overdue">
+                    <div class="stat-label"><i class="fas fa-dollar-sign"></i> Total Inventory Value</div>
+                    <div class="stat-value">$12,500</div>
+                    <div class="stat-trend">↑ 8% from last quarter</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"><i class="fas fa-truck-loading"></i> Parts Used Last Month</div>
+                    <div class="stat-value">210</div>
+                    <div class="stat-trend">↑ 15% from previous month</div>
+                </div>
+            </div>
+
+            <!-- Filter Bar for Parts -->
+            <div class="filter-bar">
+                <input type="text" placeholder="Search by Part Name, Number..." id="partSearch">
+                <select id="partCategoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Filter">Filters</option>
+                    <option value="Fluid">Fluids</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Engine">Engine Components</option>
+                </select>
+                <select id="partStockStatusFilter">
+                    <option value="">All Stock Statuses</option>
+                    <option value="in-stock">In Stock</option>
+                    <option value="low-stock">Low Stock</option>
+                    <option value="out-of-stock">Out of Stock</option>
+                </select>
+                <button id="applyPartsFilters"><i class="fas fa-filter"></i> Apply Filters</button>
+                <button id="resetPartsFilters"><i class="fas fa-redo"></i> Reset</button>
+            </div>
+
+            <div class="table-container">
+                <table id="partsTable"> <!-- Added ID for JS targeting -->
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="name">Part Name</th>
+                            <th class="sortable" data-sort="number">Part Number</th>
+                            <th class="sortable" data-sort="quantity">Quantity in Stock</th>
+                            <th class="sortable" data-sort="cost">Cost per Unit</th>
+                            <th class="sortable" data-sort="status">Stock Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example Row - Data will be loaded dynamically via JavaScript -->
+                        <tr>
+                            <td>Oil Filter</td>
+                            <td>OF-12345</td>
+                            <td>50</td>
+                            <td>$15.00</td>
+                            <td><span class="status-badge in-stock">In Stock</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="part-001"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Spark Plug</td>
+                            <td>SP-67890</td>
+                            <td>120</td>
+                            <td>$5.50</td>
+                            <td><span class="status-badge in-stock">In Stock</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="part-002"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Air Filter</td>
+                            <td>AF-98765</td>
+                            <td>8</td>
+                            <td>$25.00</td>
+                            <td><span class="status-badge low-stock">Low Stock</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="part-003"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Synthetic Oil (5L)</td>
+                            <td>SO-5W30</td>
+                            <td>3</td>
+                            <td>$60.00</td>
+                            <td><span class="status-badge low-stock">Low Stock</span></td>
+                            <td>
+                                <button class="action-button view-details" data-id="part-004"><i class="fas fa-eye"></i> View</button>
+                                <button class="action-button edit-button"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="action-button delete-button"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination for Parts -->
+            <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i></button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Part Details Modal (similar to Service Details Modal) -->
+    <div class="modal" id="partDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Part Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-card">
+                        <h4>Basic Information</h4>
+                        <p><strong>Part Name:</strong> Oil Filter</p>
+                        <p><strong>Part Number:</strong> OF-12345</p>
+                        <p><strong>Category:</strong> Filters</p>
+                        <p><strong>Description:</strong> Standard oil filter for GenPro X100 series.</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Stock & Cost</h4>
+                        <p><strong>Quantity in Stock:</strong> 50</p>
+                        <p><strong>Min Stock Level:</strong> 10</p>
+                        <p><strong>Cost per Unit:</strong> $15.00</p>
+                        <p><strong>Total Value:</strong> $750.00</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Supplier & Usage</h4>
+                        <p><strong>Preferred Supplier:</strong> FilterCo</p>
+                        <p><strong>Last Ordered:</strong> 2024-04-01</p>
+                        <p><strong>Used Last Month:</strong> 15 units</p>
+                        <p><strong>Compatible Generators:</strong> GenPro X100, GenPro X200</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4>Stock Status</h4>
+                        <p><strong>Status:</strong> <span class="status-badge in-stock">In Stock</span></p>
+                        <p><strong>Location:</strong> Warehouse Shelf A3</p>
+                        <p><strong>Reorder Point:</strong> 15 units</p>
+                        <p><strong>Lead Time:</strong> 3-5 business days</p>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h4>Notes</h4>
+                    <div class="detail-card">
+                        <p>Ensure regular stock checks. Consider bulk ordering for cost savings.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-close">Close</button>
+                <button class="btn-print"><i class="fas fa-print"></i> Print Part Info</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            const darkModeText = document.getElementById('darkModeText');
+
+            // Check for saved preference
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeIcon.className = 'fas fa-sun';
+                darkModeText.textContent = 'Light Mode';
+            }
+
+            // Toggle dark mode
+            darkModeToggle.addEventListener('click', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDark);
+
+                // Update icon and text
+                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            });
+
+            // Modal functionality for Part Details
+            const modal = document.getElementById('partDetailsModal');
+            const closeModal = document.querySelector('#partDetailsModal .close-modal');
+            const closeBtn = document.querySelector('#partDetailsModal .btn-close');
+            const viewDetailsBtns = document.querySelectorAll('.view-details');
+
+            // Open modal
+            viewDetailsBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                    // In a real application, you would populate the modal with data based on the clicked row's ID
+                    // For example: const partId = btn.dataset.id; fetchPartDetails(partId);
+                });
+            });
+
+            // Close modal
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside content
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Table sorting functionality for Parts Table
+            const sortableHeaders = document.querySelectorAll('#partsTable .sortable');
+
+            sortableHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const sortBy = header.dataset.sort;
+                    const isAscending = !header.classList.contains('sorted-asc');
+
+                    // Reset other headers
+                    sortableHeaders.forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+
+                    // Set current header
+                    header.classList.add(isAscending ? 'sorted-asc' : 'sorted-desc');
+
+                    // Sort the table (simulated)
+                    sortPartsTable(sortBy, isAscending);
+                });
+            });
+
+            // Filter functionality for Parts Table
+            const applyPartsFiltersBtn = document.getElementById('applyPartsFilters');
+            const resetPartsFiltersBtn = document.getElementById('resetPartsFilters');
+
+            applyPartsFiltersBtn.addEventListener('click', applyPartsFilters);
+            resetPartsFiltersBtn.addEventListener('click', resetPartsFilters);
+
+            function applyPartsFilters() {
+                const searchTerm = document.getElementById('partSearch').value.toLowerCase();
+                const categoryFilter = document.getElementById('partCategoryFilter').value;
+                const stockStatusFilter = document.getElementById('partStockStatusFilter').value;
+
+                const rows = document.querySelectorAll('#partsTable tbody tr');
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const partName = cells[0].textContent.toLowerCase();
+                    const partNumber = cells[1].textContent.toLowerCase();
+                    const quantity = parseInt(cells[2].textContent);
+                    const stockStatusCell = cells[4].querySelector('.status-badge');
+                    const stockStatus = stockStatusCell ? stockStatusCell.textContent.toLowerCase().replace(/\s/g, '-') : ''; // Normalize for comparison
+
+                    // For category, assuming it's not directly in the table, but would be in data
+                    // For this example, we'll skip category filtering unless it's added to the HTML
+                    // const category = '...'; // Need to get this from data or add to HTML
+
+                    const matchesSearch = partName.includes(searchTerm) || partNumber.includes(searchTerm);
+                    const matchesStockStatus = !stockStatusFilter || stockStatus === stockStatusFilter;
+                    // const matchesCategory = !categoryFilter || category === categoryFilter; // Uncomment if category is added
+
+                    row.style.display = matchesSearch && matchesStockStatus /* && matchesCategory */ ? '' : 'none';
+                });
+            }
+
+            function resetPartsFilters() {
+                document.getElementById('partSearch').value = '';
+                document.getElementById('partCategoryFilter').selectedIndex = 0;
+                document.getElementById('partStockStatusFilter').selectedIndex = 0;
+
+                const rows = document.querySelectorAll('#partsTable tbody tr');
+                rows.forEach(row => row.style.display = '');
+            }
+
+            // Simulated table sorting for Parts
+            function sortPartsTable(column, ascending) {
+                const rows = Array.from(document.querySelectorAll('#partsTable tbody tr'));
+
+                rows.sort((a, b) => {
+                    const aVal = a.children[getPartsColumnIndex(column)].textContent;
+                    const bVal = b.children[getPartsColumnIndex(column)].textContent;
+
+                    // For numeric columns (Quantity, Cost)
+                    if (column === 'quantity' || column === 'cost') {
+                        const numA = parseFloat(aVal.replace(/[^0-9.-]+/g,"")); // Remove non-numeric chars
+                        const numB = parseFloat(bVal.replace(/[^0-9.-]+/g,""));
+                        return ascending ? numA - numB : numB - numA;
+                    }
+
+                    // For status column
+                    if (column === 'status') {
+                        const statusOrder = {'in stock': 1, 'low stock': 2, 'out of stock': 3};
+                        return ascending ?
+                            statusOrder[aVal.toLowerCase()] - statusOrder[bVal.toLowerCase()] :
+                            statusOrder[bVal.toLowerCase()] - statusOrder[aVal.toLowerCase()];
+                    }
+
+                    // Default text comparison
+                    return ascending ?
+                        aVal.localeCompare(bVal) :
+                        bVal.localeCompare(aVal);
+                });
+
+                // Re-append rows in sorted order
+                const tableBody = document.querySelector('#partsTable tbody');
+                tableBody.innerHTML = '';
+                rows.forEach(row => tableBody.appendChild(row));
+            }
+
+            function getPartsColumnIndex(column) {
+                const columns = ['name', 'number', 'quantity', 'cost', 'status'];
+                return columns.indexOf(column);
+            }
+        });
+    </script>
+</body>
+</html>
