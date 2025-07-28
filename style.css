@@ -1790,3 +1790,52 @@ main {
                 font-size: 1.8rem;
             }
         }
+        /* Add to end of style.css */
+/* Mobile Menu Styles */
+.menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .menu-button {
+        display: block;
+    }
+
+    .header-container {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--header-bg);
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        z-index: 1000;
+    }
+
+    .header-container.active {
+        display: flex;
+    }
+
+    .header-container > * {
+        width: 100%;
+    }
+
+    .nav-container {
+        order: 1;
+    }
+
+    .nav-actions {
+        order: 2;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+}
