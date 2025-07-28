@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- Header Section - Replicated from other pages for consistency -->
     <header>
         <nav>
             <div class="logo">
@@ -18,9 +18,17 @@
                     <p>Generator Maintenance System</p>
                 </div>
             </div>
+            <button class="menu-button" aria-label="Menu" aria-expanded="false">
+                <span class="menu-icon">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+                <span class="menu-text">Menu</span>
+            </button>
             <div class="header-container">
-                <div class="nav-container">
-                    <ul class="nav-links">
+                <div class="nav-container" id="main-nav">
+                    <ul class="nav-links" role="menu">
                         <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                         <li><a href="registry.html" class="active"><i class="fas fa-list"></i> Registry</a></li>
                         <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
@@ -75,7 +83,7 @@
             </div>
 
             <div class="table-container">
-                <table id="registryTable"> <!-- Added ID for JS targeting -->
+                <table id="registryTable">
                     <thead>
                         <tr>
                             <th class="sortable" data-sort="model">Model</th>
@@ -196,159 +204,7 @@
         </div>
     </div>
 
-    <script>
-        // Dark Mode Toggle
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const darkModeIcon = document.getElementById('darkModeIcon');
-            const darkModeText = document.getElementById('darkModeText');
-
-            // Check for saved preference
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeIcon.className = 'fas fa-sun';
-                darkModeText.textContent = 'Light Mode';
-            }
-
-            // Toggle dark mode
-            darkModeToggle.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', isDark);
-
-                // Update icon and text
-                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            });
-
-            // Modal functionality for Generator Details
-            const modal = document.getElementById('generatorDetailsModal');
-            const closeModal = document.querySelector('#generatorDetailsModal .close-modal');
-            const closeBtn = document.querySelector('#generatorDetailsModal .btn-close');
-            const viewDetailsBtns = document.querySelectorAll('.view-details');
-
-            // Open modal
-            viewDetailsBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    modal.style.display = 'flex';
-                    // In a real application, you would populate the modal with data based on the clicked row's ID
-                    // For example: const generatorId = btn.dataset.id; fetchGeneratorDetails(generatorId);
-                });
-            });
-
-            // Close modal
-            closeModal.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside content
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-
-            // Table sorting functionality for Registry Table
-            const sortableHeaders = document.querySelectorAll('#registryTable .sortable');
-
-            sortableHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const sortBy = header.dataset.sort;
-                    const isAscending = !header.classList.contains('sorted-asc');
-
-                    // Reset other headers
-                    sortableHeaders.forEach(h => {
-                        h.classList.remove('sorted-asc', 'sorted-desc');
-                    });
-
-                    // Set current header
-                    header.classList.add(isAscending ? 'sorted-asc' : 'sorted-desc');
-
-                    // Sort the table (simulated)
-                    sortRegistryTable(sortBy, isAscending);
-                });
-            });
-
-            // Filter functionality for Registry Table
-            const applyRegistryFiltersBtn = document.getElementById('applyRegistryFilters');
-            const resetRegistryFiltersBtn = document.getElementById('resetRegistryFilters');
-
-            applyRegistryFiltersBtn.addEventListener('click', applyRegistryFilters);
-            resetRegistryFiltersBtn.addEventListener('click', resetRegistryFilters);
-
-            function applyRegistryFilters() {
-                const searchTerm = document.getElementById('registrySearch').value.toLowerCase();
-                const typeFilter = document.getElementById('registryTypeFilter').value;
-                const locationFilter = document.getElementById('registryLocationFilter').value;
-                const dateFrom = document.getElementById('registryDateFrom').value;
-                const dateTo = document.getElementById('registryDateTo').value;
-
-                const rows = document.querySelectorAll('#registryTable tbody tr');
-
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    const model = cells[0].textContent.toLowerCase();
-                    const serial = cells[2].textContent.toLowerCase();
-                    const type = cells[1].textContent;
-                    const location = cells[3].textContent;
-                    const purchaseDate = cells[4].textContent;
-
-                    const matchesSearch = model.includes(searchTerm) || serial.includes(searchTerm);
-                    const matchesType = !typeFilter || type === typeFilter;
-                    const matchesLocation = !locationFilter || location === locationFilter;
-                    const matchesDate = (!dateFrom || purchaseDate >= dateFrom) && (!dateTo || purchaseDate <= dateTo);
-
-                    row.style.display = matchesSearch && matchesType && matchesLocation && matchesDate ? '' : 'none';
-                });
-            }
-
-            function resetRegistryFilters() {
-                document.getElementById('registrySearch').value = '';
-                document.getElementById('registryTypeFilter').selectedIndex = 0;
-                document.getElementById('registryLocationFilter').selectedIndex = 0;
-                document.getElementById('registryDateFrom').value = '';
-                document.getElementById('registryDateTo').value = '';
-
-                const rows = document.querySelectorAll('#registryTable tbody tr');
-                rows.forEach(row => row.style.display = '');
-            }
-
-            // Simulated table sorting for Registry
-            function sortRegistryTable(column, ascending) {
-                const rows = Array.from(document.querySelectorAll('#registryTable tbody tr'));
-
-                rows.sort((a, b) => {
-                    const aVal = a.children[getRegistryColumnIndex(column)].textContent;
-                    const bVal = b.children[getRegistryColumnIndex(column)].textContent;
-
-                    // For date columns
-                    if (column === 'purchaseDate') {
-                        return ascending ?
-                            new Date(aVal) - new Date(bVal) :
-                            new Date(bVal) - new Date(aVal);
-                    }
-
-                    // Default text comparison
-                    return ascending ?
-                        aVal.localeCompare(bVal) :
-                        bVal.localeCompare(aVal);
-                });
-
-                // Re-append rows in sorted order
-                const tableBody = document.querySelector('#registryTable tbody');
-                tableBody.innerHTML = '';
-                rows.forEach(row => tableBody.appendChild(row));
-            }
-
-            function getRegistryColumnIndex(column) {
-                const columns = ['model', 'type', 'serial', 'location', 'purchaseDate'];
-                return columns.indexOf(column);
-            }
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -6,38 +6,6 @@
     <title>GenMaint Pro - Service Records</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Specific styles for records page - these are already in style.css based on reports.html */
-        /* Keeping them here for clarity, but they should ideally be in style.css */
-        .filter-bar {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            background-color: var(--card-bg); /* Added for consistency */
-            padding: 15px; /* Added for consistency */
-            border-radius: 10px; /* Added for consistency */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Added for consistency */
-        }
-        .filter-bar input, .filter-bar select {
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            background-color: var(--bg); /* Changed to var(--bg) for consistency */
-            color: var(--text-color); /* Changed to var(--text-color) for consistency */
-        }
-        .filter-bar button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex; /* Added for icon alignment */
-            align-items: center; /* Added for icon alignment */
-            gap: 5px; /* Added for icon spacing */
-        }
-    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -50,9 +18,17 @@
                     <p>Generator Maintenance System</p>
                 </div>
             </div>
+            <button class="menu-button" aria-label="Menu" aria-expanded="false">
+                <span class="menu-icon">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+                <span class="menu-text">Menu</span>
+            </button>
             <div class="header-container">
-                <div class="nav-container">
-                    <ul class="nav-links">
+                <div class="nav-container" id="main-nav">
+                    <ul class="nav-links" role="menu">
                         <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                         <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
                         <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
@@ -85,7 +61,7 @@
                 <button class="reports-button"><i class="fas fa-file-export"></i> Export Records</button>
             </div>
 
-            <!-- Stat Cards - Added for consistency with reports.html -->
+            <!-- Stat Cards -->
             <div class="stats-container">
                 <div class="stat-card completed">
                     <div class="stat-label"><i class="fas fa-check-circle"></i> Completed Services</div>
@@ -117,21 +93,22 @@
                     <option value="pending">Pending</option>
                     <option value="overdue">Overdue</option>
                 </select>
-                <select id="recordTechnicianFilter"> <!-- Added Technician Filter for consistency -->
+                <select id="recordTechnicianFilter">
                     <option value="">All Technicians</option>
                     <option value="John Doe">John Doe</option>
                     <option value="Jane Smith">Jane Smith</option>
                     <option value="Robert Johnson">Robert Johnson</option>
                     <option value="Emily Davis">Emily Davis</option>
+                    <option value="Michael Brown">Michael Brown</option>
                 </select>
-                <input type="date" id="recordDateFrom" placeholder="From Date"> <!-- Changed to From Date -->
-                <input type="date" id="recordDateTo" placeholder="To Date"> <!-- Added To Date -->
-                <button id="applyFilters"><i class="fas fa-filter"></i> Apply Filters</button>
-                <button id="resetFilters"><i class="fas fa-redo"></i> Reset</button>
+                <input type="date" id="recordDateFrom" placeholder="From Date">
+                <input type="date" id="recordDateTo" placeholder="To Date">
+                <button id="applyRecordsFilters"><i class="fas fa-filter"></i> Apply Filters</button>
+                <button id="resetRecordsFilters"><i class="fas fa-redo"></i> Reset</button>
             </div>
 
             <div class="table-container">
-                <table id="recordsTable"> <!-- Added ID for JS targeting -->
+                <table id="recordsTable">
                     <thead>
                         <tr>
                             <th class="sortable" data-sort="id">Service ID</th>
@@ -144,7 +121,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example Row - Data will be loaded dynamically via JavaScript -->
                         <tr>
                             <td>SRV-001</td>
                             <td>GenPro X100</td>
@@ -194,7 +170,7 @@
                 </table>
             </div>
 
-            <!-- Pagination - Added for consistency with reports.html -->
+            <!-- Pagination -->
             <div class="pagination">
                 <button><i class="fas fa-chevron-left"></i></button>
                 <button class="active">1</button>
@@ -205,7 +181,7 @@
         </section>
     </main>
 
-    <!-- Service Details Modal (copied directly from reports.html) -->
+    <!-- Service Details Modal (reused from clientportal.html) -->
     <div class="modal" id="serviceDetailsModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -283,169 +259,7 @@
         </div>
     </div>
 
-    <script>
-        // Dark Mode Toggle
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const darkModeIcon = document.getElementById('darkModeIcon');
-            const darkModeText = document.getElementById('darkModeText');
-
-            // Check for saved preference
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeIcon.className = 'fas fa-sun';
-                darkModeText.textContent = 'Light Mode';
-            }
-
-            // Toggle dark mode
-            darkModeToggle.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', isDark);
-
-                // Update icon and text
-                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            });
-
-            // Modal functionality (copied directly from reports.html)
-            const modal = document.getElementById('serviceDetailsModal');
-            const closeModal = document.querySelector('.close-modal');
-            const closeBtn = document.querySelector('.btn-close');
-            const viewDetailsBtns = document.querySelectorAll('.view-details');
-
-            // Open modal
-            viewDetailsBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    modal.style.display = 'flex';
-                    // In a real application, you would populate the modal with data based on the clicked row's ID
-                    // For example: const recordId = btn.dataset.id; fetchServiceDetails(recordId);
-                });
-            });
-
-            // Close modal
-            closeModal.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside content
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-
-            // Table sorting functionality (copied directly from reports.html)
-            const sortableHeaders = document.querySelectorAll('#recordsTable .sortable');
-
-            sortableHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const sortBy = header.dataset.sort;
-                    const isAscending = !header.classList.contains('sorted-asc');
-
-                    // Reset other headers
-                    sortableHeaders.forEach(h => {
-                        h.classList.remove('sorted-asc', 'sorted-desc');
-                    });
-
-                    // Set current header
-                    header.classList.add(isAscending ? 'sorted-asc' : 'sorted-desc');
-
-                    // Sort the table (simulated)
-                    sortTable(sortBy, isAscending);
-                });
-            });
-
-            // Filter functionality (copied directly from reports.html)
-            const applyFiltersBtn = document.getElementById('applyFilters');
-            const resetFiltersBtn = document.getElementById('resetFilters');
-
-            applyFiltersBtn.addEventListener('click', applyFilters);
-            resetFiltersBtn.addEventListener('click', resetFilters);
-
-            function applyFilters() {
-                const searchTerm = document.getElementById('recordSearch').value.toLowerCase();
-                const statusFilter = document.getElementById('recordStatusFilter').value;
-                const techFilter = document.getElementById('recordTechnicianFilter').value;
-                const dateFrom = document.getElementById('recordDateFrom').value;
-                const dateTo = document.getElementById('recordDateTo').value;
-
-                const rows = document.querySelectorAll('#recordsTable tr');
-
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    const statusCell = cells[5].querySelector('.status-badge');
-                    const status = statusCell ? statusCell.textContent.toLowerCase() : '';
-                    const tech = cells[4].textContent;
-                    const date = cells[2].textContent;
-
-                    const matchesSearch = cells[0].textContent.toLowerCase().includes(searchTerm) ||
-                                         cells[1].textContent.toLowerCase().includes(searchTerm) ||
-                                         tech.toLowerCase().includes(searchTerm);
-
-                    const matchesStatus = !statusFilter || status === statusFilter;
-                    const matchesTech = !techFilter || tech === techFilter;
-                    const matchesDate = (!dateFrom || date >= dateFrom) && (!dateTo || date <= dateTo);
-
-                    row.style.display = matchesSearch && matchesStatus && matchesTech && matchesDate ? '' : 'none';
-                });
-            }
-
-            function resetFilters() {
-                document.getElementById('recordSearch').value = '';
-                document.getElementById('recordStatusFilter').selectedIndex = 0;
-                document.getElementById('recordTechnicianFilter').selectedIndex = 0;
-                document.getElementById('recordDateFrom').value = '';
-                document.getElementById('recordDateTo').value = '';
-
-                const rows = document.querySelectorAll('#recordsTable tr');
-                rows.forEach(row => row.style.display = '');
-            }
-
-            // Simulated table sorting (copied directly from reports.html)
-            function sortTable(column, ascending) {
-                const rows = Array.from(document.querySelectorAll('#recordsTable tr'));
-
-                rows.sort((a, b) => {
-                    const aVal = a.children[getColumnIndex(column)].textContent;
-                    const bVal = b.children[getColumnIndex(column)].textContent;
-
-                    // For date columns
-                    if (column === 'date' || column === 'next') {
-                        return ascending ?
-                            new Date(aVal) - new Date(bVal) :
-                            new Date(bVal) - new Date(aVal);
-                    }
-
-                    // For status column
-                    if (column === 'status') {
-                        const statusOrder = {'Completed': 1, 'Pending': 2, 'Overdue': 3};
-                        return ascending ?
-                            statusOrder[aVal] - statusOrder[bVal] :
-                            statusOrder[bVal] - statusOrder[aVal];
-                    }
-
-                    // Default text comparison
-                    return ascending ?
-                        aVal.localeCompare(bVal) :
-                        bVal.localeCompare(aVal);
-                });
-
-                // Re-append rows in sorted order
-                const tableBody = document.getElementById('recordsTable');
-                tableBody.innerHTML = '';
-                rows.forEach(row => tableBody.appendChild(row));
-            }
-
-            function getColumnIndex(column) {
-                const columns = ['id', 'generator', 'date', 'next', 'tech', 'status'];
-                return columns.indexOf(column);
-            }
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

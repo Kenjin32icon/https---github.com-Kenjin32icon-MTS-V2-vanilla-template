@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GenMaint Pro - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,12 +17,17 @@
                 <p>Generator Maintenance System</p>
             </div>
         </div>
-        <button class="menu-button" aria-label="Menu">
-            <i class="fas fa-bars"></i>
-        </button>        
+        <button class="menu-button" aria-label="Menu" aria-expanded="false">
+            <span class="menu-icon">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </span>
+            <span class="menu-text">Menu</span>
+        </button>       
         <div class="header-container">
-            <div class="nav-container">
-                <ul class="nav-links">
+            <div class="nav-container" id="main-nav">
+                <ul class="nav-links" role="menu">
                     <li><a href="index.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                     <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
                     <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
@@ -45,161 +49,66 @@
     </nav>
 </header>
 
-    <main>
-        <section class="analytics service-records" aria-labelledby="reports-heading">
-            <div class="section-header">
-                <div>
-                    <h2 id="reports-heading"><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
-                    <p>Comprehensive insights into maintenance operations</p>
-                </div>
-                <div class="export">
-                    <div class="dropdown">
-                        <button class="dropdown-toggle reports-button">Year to Date <i class="fas fa-chevron-down"></i></button>
-                        <div class="dropdown-menu">
-                            <button>Last 7 Days</button>
-                            <button>Last 30 Days</button>
-                            <button>Quarter to Date</button>
-                            <button>Custom Range</button>
-                        </div>
-                    </div>
-                    <button class="reports-button"><i class="fas fa-file-export"></i> Export Report</button>
-                </div>
+<main>
+    <section class="analytics service-records" aria-labelledby="reports-heading">
+        <div class="section-header">
+            <div>
+                <h2 id="reports-heading"><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
+                <p>Comprehensive insights into maintenance operations</p>
             </div>
-
-            <div class="stats-container"> <!-- Changed from 'cards' to 'stats-container' for consistent styling -->
-                <div class="stat-card completed" role="region" aria-labelledby="services-heading">
-                    <div class="stat-label"><i class="fas fa-check-circle"></i> Total Services YTD</div>
-                    <div class="stat-value" aria-label="152 services">152</div>
-                    <div class="stat-trend positive">↑ 12% vs last year</div>
-                    <!-- <div class="card-footer">On track to exceed target</div> -->
-                </div>
-                <div class="stat-card" role="region" aria-labelledby="cost-heading">
-                    <div class="stat-label"><i class="fas fa-dollar-sign"></i> Total Cost YTD</div>
-                    <div class="stat-value" aria-label="69,400 dollars">$69,400</div>
-                    <div class="stat-trend negative">↓ 8% vs last year</div> <!-- Changed to negative for cost reduction -->
-                    <!-- <div class="card-footer">Cost efficiency improving</div> -->
-                </div>
-                <div class="stat-card" role="region" aria-labelledby="response-heading">
-                    <div class="stat-label"><i class="fas fa-clock"></i> Avg Response Time</div>
-                    <div class="stat-value" aria-label="2.4 hours">2.4 hrs</div>
-                    <div class="stat-trend negative">↓ 15% improvement</div> <!-- Changed to negative for time reduction -->
-                    <!-- <div class="card-footer">Faster than industry avg</div> -->
-                </div>
-                <div class="stat-card overdue" role="region" aria-labelledby="overdue-heading">
-                    <div class="stat-label"><i class="fas fa-exclamation-triangle"></i> Overdue Services</div>
-                    <div class="stat-value" aria-label="3 overdue">3</div>
-                    <div class="stat-trend negative">↓ 40% vs last month</div> <!-- Changed to negative for reduction -->
-                    <!-- <div class="card-footer">2 critical, 1 moderate</div> -->
-                </div>
-            </div>
-
-            <div class="chart-container" role="region" aria-labelledby="chart-heading">
-                <div class="chart-header">
-                    <h3 id="chart-heading">Service Volume Trend</h3>
-                    <div class="chart-legend">
-                        <span class="legend-item"><span class="color current"></span> 2024</span>
-                        <span class="legend-item"><span class="color previous"></span> 2023</span>
+            <div class="export">
+                <div class="dropdown">
+                    <button class="dropdown-toggle reports-button">Year to Date <i class="fas fa-chevron-down"></i></button>
+                    <div class="dropdown-menu">
+                        <button>Last 7 Days</button>
+                        <button>Last 30 Days</button>
+                        <button>Quarter to Date</button>
+                        <button>Custom Range</button>
                     </div>
                 </div>
-                <canvas id="serviceTrendChart" aria-label="Service volume trend chart"></canvas>
+                <button class="reports-button"><i class="fas fa-file-export"></i> Export Report</button>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <link rel="script" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="index.js">  </script>
-    <script>
-        // Dark Mode Toggle
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const darkModeIcon = document.getElementById('darkModeIcon');
-            const darkModeText = document.getElementById('darkModeText');
+        <div class="stats-container">
+            <div class="stat-card completed" role="region" aria-labelledby="services-heading">
+                <div class="stat-label"><i class="fas fa-check-circle"></i> Total Services YTD</div>
+                <div class="stat-value" aria-label="152 services">152</div>
+                <div class="stat-trend positive">↑ 12% vs last year</div>
+            </div>
+            <div class="stat-card" role="region" aria-labelledby="cost-heading">
+                <div class="stat-label"><i class="fas fa-dollar-sign"></i> Total Cost YTD</div>
+                <div class="stat-value" aria-label="69,400 dollars">$69,400</div>
+                <div class="stat-trend negative">↓ 8% vs last year</div>
+            </div>
+            <div class="stat-card" role="region" aria-labelledby="response-heading">
+                <div class="stat-label"><i class="fas fa-clock"></i> Avg Response Time</div>
+                <div class="stat-value" aria-label="2.4 hours">2.4 hrs</div>
+                <div class="stat-trend negative">↓ 15% improvement</div>
+            </div>
+            <div class="stat-card overdue" role="region" aria-labelledby="overdue-heading">
+                <div class="stat-label"><i class="fas fa-exclamation-triangle"></i> Overdue Services</div>
+                <div class="stat-value" aria-label="3 overdue">3</div>
+                <div class="stat-trend negative">↓ 40% vs last month</div>
+            </div>
+        </div>
 
-            // Check for saved preference
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeIcon.className = 'fas fa-sun';
-                darkModeText.textContent = 'Light Mode';
-            }
+        <div class="chart-container" role="region" aria-labelledby="chart-heading">
+            <div class="chart-header">
+                <h3 id="chart-heading">Service Volume Trend</h3>
+                <div class="chart-legend">
+                    <span class="legend-item"><span class="color current"></span> 2024</span>
+                    <span class="legend-item"><span class="color previous"></span> 2023</span>
+                </div>
+            </div>
+            <canvas id="serviceTrendChart" aria-label="Service volume trend chart"></canvas>
+        </div>
+    </section>
+</main>
 
-            // Toggle dark mode
-            darkModeToggle.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', isDark);
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+<script src="index.js"></script>
 
-                // Update icon and text
-                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            });
-
-// Initialize chart
-        const ctx = document.getElementById('serviceTrendChart').getContext('2d');
-        const serviceVolumeChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                    label: 'Number of Services',
-                    data: [12, 19, 15, 25, 30, 22, 28],
-                    backgroundColor: 'rgba(52, 152, 219, 1)',
-                    borderColor: 'rgba(41, 128, 185, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Number of Services'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Months'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-            // Dropdown functionality (from original index.html)
-            const dropdownToggle = document.querySelector('.dropdown-toggle');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-
-            if (dropdownToggle && dropdownMenu) {
-                dropdownToggle.addEventListener('click', () => {
-                    dropdownMenu.classList.toggle('show');
-                });
-
-                window.addEventListener('click', (event) => {
-                    if (!event.target.matches('.dropdown-toggle') && !event.target.closest('.dropdown-menu')) {
-                        if (dropdownMenu.classList.contains('show')) {
-                            dropdownMenu.classList.remove('show');
-                        }
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>

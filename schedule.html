@@ -6,93 +6,6 @@
     <title>GenMaint Pro - Maintenance Schedule</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Specific styles for calendar view - moved to style.css or kept here if truly unique */
-        /* Keeping these here for demonstration, but ideally, common styles go to style.css */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .calendar-day {
-            border: 1px solid var(--border);
-            padding: 10px;
-            min-height: 100px;
-            background-color: var(--bg);
-            border-radius: 5px;
-            font-size: 0.9rem;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .calendar-day.header {
-            background-color: var(--primary);
-            color: white;
-            text-align: center;
-            font-weight: bold;
-            padding: 8px;
-            border: none; /* Remove border for header */
-        }
-        .calendar-day.has-service {
-            background-color: rgba(63, 81, 181, 0.1); /* Light primary background */
-            border-color: var(--primary);
-        }
-        .calendar-day.current-month {
-            background-color: var(--bg); /* Ensure current month days have default background */
-        }
-        .calendar-day.other-month {
-            background-color: var(--light-bg); /* Lighter background for days not in current month */
-            color: var(--text-light); /* Lighter text for days not in current month */
-        }
-        .calendar-day .day-number {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--text-color);
-        }
-        .calendar-day.other-month .day-number {
-            color: var(--text-light);
-        }
-        .service-event {
-            background-color: var(--primary);
-            color: white;
-            padding: 3px 5px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            cursor: pointer; /* Indicate clickable */
-        }
-        .service-event.overdue {
-            background-color: var(--overdue-color); /* Red for overdue */
-        }
-        .service-event.completed {
-            background-color: var(--completed-color); /* Green for completed */
-        }
-        .service-event.pending {
-            background-color: var(--pending-color); /* Orange for pending */
-        }
-        .calendar-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .calendar-navigation h3 {
-            margin: 0;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -105,9 +18,17 @@
                     <p>Generator Maintenance System</p>
                 </div>
             </div>
+            <button class="menu-button" aria-label="Menu" aria-expanded="false">
+                <span class="menu-icon">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+                <span class="menu-text">Menu</span>
+            </button>
             <div class="header-container">
-                <div class="nav-container">
-                    <ul class="nav-links">
+                <div class="nav-container" id="main-nav">
+                    <ul class="nav-links" role="menu">
                         <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                         <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
                         <li><a href="schedule.html" class="active"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
@@ -137,7 +58,7 @@
                     <h2 id="schedule-heading"><i class="fas fa-calendar-alt"></i> Maintenance Schedule</h2>
                     <p>View and manage upcoming generator services.</p>
                 </div>
-                <div class="action-buttons-group"> <!-- Grouping buttons for better layout -->
+                <div class="action-buttons-group">
                     <button class="reports-button"><i class="fas fa-cog"></i> Configure Intervals</button>
                     <button class="reports-button"><i class="fas fa-plus-circle"></i> Add New Service</button>
                 </div>
@@ -166,34 +87,34 @@
                 <div class="detail-grid">
                     <div class="detail-card">
                         <h4>Service Information</h4>
-                        <p><strong>ID:</strong> SCH-001</p>
-                        <p><strong>Date:</strong> 2024-05-20</p>
-                        <p><strong>Time:</strong> 09:00 AM</p>
-                        <p><strong>Type:</strong> Preventative Maintenance</p>
+                        <p><strong>ID:</strong> <span id="modal-service-id"></span></p>
+                        <p><strong>Date:</strong> <span id="modal-service-date"></span></p>
+                        <p><strong>Time:</strong> <span id="modal-service-time"></span></p>
+                        <p><strong>Type:</strong> <span id="modal-service-type"></span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Generator Details</h4>
-                        <p><strong>Model:</strong> GenPro X100</p>
-                        <p><strong>Serial No:</strong> SN-GPX100-001</p>
-                        <p><strong>Location:</strong> Warehouse A</p>
-                        <p><strong>Last Service:</strong> 2024-03-10</p>
+                        <p><strong>Model:</strong> <span id="modal-gen-model"></span></p>
+                        <p><strong>Serial No:</strong> <span id="modal-gen-serial"></span></p>
+                        <p><strong>Location:</strong> <span id="modal-gen-location"></span></p>
+                        <p><strong>Last Service:</strong> <span id="modal-gen-last-service"></span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Assigned Team</h4>
-                        <p><strong>Technician:</strong> John Doe</p>
-                        <p><strong>Team:</strong> Maintenance Crew A</p>
-                        <p><strong>Contact:</strong> john.doe@example.com</p>
-                        <p><strong>Priority:</strong> High</p>
+                        <p><strong>Technician:</strong> <span id="modal-tech-name"></span></p>
+                        <p><strong>Team:</strong> <span id="modal-tech-team"></span></p>
+                        <p><strong>Contact:</strong> <span id="modal-tech-contact"></span></p>
+                        <p><strong>Priority:</strong> <span id="modal-service-priority"></span></p>
                     </div>
 
                     <div class="detail-card">
                         <h4>Status & Notes</h4>
-                        <p><strong>Status:</strong> <span class="status-badge status-pending">Pending</span></p>
-                        <p><strong>Estimated Duration:</strong> 3 hours</p>
-                        <p><strong>Required Parts:</strong> Oil Filter, Air Filter</p>
-                        <p><strong>Notes:</strong> Standard 6-month check-up. Check fuel lines for wear.</p>
+                        <p><strong>Status:</strong> <span class="status-badge" id="modal-service-status"></span></p>
+                        <p><strong>Estimated Duration:</strong> <span id="modal-service-duration"></span></p>
+                        <p><strong>Required Parts:</strong> <span id="modal-service-parts"></span></p>
+                        <p><strong>Notes:</strong> <span id="modal-service-notes"></span></p>
                     </div>
                 </div>
             </div>
@@ -205,162 +126,8 @@
         </div>
     </div>
 
-    <script>
-        // Dark Mode Toggle
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const darkModeIcon = document.getElementById('darkModeIcon');
-            const darkModeText = document.getElementById('darkModeText');
-
-            // Check for saved preference
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeIcon.className = 'fas fa-sun';
-                darkModeText.textContent = 'Light Mode';
-            }
-
-            // Toggle dark mode
-            darkModeToggle.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', isDark);
-
-                // Update icon and text
-                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            });
-
-            // Calendar and Modal Functionality (from original schedule.js and reports.html)
-            const calendarGrid = document.getElementById('calendarGrid');
-            const currentMonthYear = document.getElementById('currentMonthYear');
-            const prevMonthBtn = document.getElementById('prevMonth');
-            const nextMonthBtn = document.getElementById('nextMonth');
-
-            let currentDate = new Date();
-
-            const services = [
-                { date: '2024-05-10', generator: 'GenPro X100', type: 'Oil Change', status: 'completed' },
-                { date: '2024-05-15', generator: 'PowerGen 5000', type: 'Filter Replacement', status: 'pending' },
-                { date: '2024-05-20', generator: 'EcoPower 3000', type: 'Full Inspection', status: 'overdue' },
-                { date: '2024-06-05', generator: 'GenPro X200', type: 'Battery Check', status: 'pending' },
-                { date: '2024-06-12', generator: 'PowerGen 7000', type: 'Coolant Flush', status: 'pending' }
-            ];
-
-            function renderCalendar() {
-                calendarGrid.innerHTML = ''; // Clear previous calendar
-                const year = currentDate.getFullYear();
-                const month = currentDate.getMonth();
-
-                currentMonthYear.textContent = new Date(year, month).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-
-                const firstDayOfMonth = new Date(year, month, 1);
-                const lastDayOfMonth = new Date(year, month + 1, 0);
-                const daysInMonth = lastDayOfMonth.getDate();
-
-                // Add day headers
-                const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                dayNames.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.classList.add('calendar-day', 'header');
-                    dayHeader.textContent = day;
-                    calendarGrid.appendChild(dayHeader);
-                });
-
-                // Fill leading empty days
-                const startDay = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
-                for (let i = 0; i < startDay; i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.classList.add('calendar-day', 'other-month');
-                    calendarGrid.appendChild(emptyDay);
-                }
-
-                // Fill days of the month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayElement = document.createElement('div');
-                    dayElement.classList.add('calendar-day', 'current-month');
-                    dayElement.innerHTML = `<span class="day-number">${day}</span>`;
-
-                    const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                    const servicesForDay = services.filter(service => service.date === fullDate);
-
-                    if (servicesForDay.length > 0) {
-                        dayElement.classList.add('has-service');
-                        servicesForDay.forEach(service => {
-                            const serviceEvent = document.createElement('div');
-                            serviceEvent.classList.add('service-event', `status-${service.status}`);
-                            serviceEvent.textContent = `${service.generator} - ${service.type}`;
-                            serviceEvent.dataset.serviceId = service.generator; // Example ID for modal
-                            dayElement.appendChild(serviceEvent);
-
-                            // Add event listener to open modal
-                            serviceEvent.addEventListener('click', () => {
-                                openServiceModal(service); // Pass service data to modal
-                            });
-                        });
-                    }
-                    calendarGrid.appendChild(dayElement);
-                }
-
-                // Fill trailing empty days (to complete the last week row)
-                const totalDaysDisplayed = startDay + daysInMonth;
-                const remainingDays = (7 - (totalDaysDisplayed % 7)) % 7;
-                for (let i = 0; i < remainingDays; i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.classList.add('calendar-day', 'other-month');
-                    calendarGrid.appendChild(emptyDay);
-                }
-            }
-
-            prevMonthBtn.addEventListener('click', () => {
-                currentDate.setMonth(currentDate.getMonth() - 1);
-                renderCalendar();
-            });
-
-            nextMonthBtn.addEventListener('click', () => {
-                currentDate.setMonth(currentDate.getMonth() + 1);
-                renderCalendar();
-            });
-
-            renderCalendar(); // Initial render
-
-            // Service Details Modal functionality
-            const modal = document.getElementById('serviceDetailsModal');
-            const closeModal = document.querySelector('#serviceDetailsModal .close-modal');
-            const closeBtn = document.querySelector('#serviceDetailsModal .btn-close');
-
-            function openServiceModal(serviceData) {
-                // Populate modal with serviceData (this is a simplified example)
-                document.querySelector('#serviceDetailsModal h3').textContent = `Scheduled Service Details for ${serviceData.generator}`;
-                // You would dynamically update all detail-card p tags here based on serviceData
-                // For example:
-                // document.querySelector('#serviceDetailsModal p strong:contains("ID:")').nextSibling.textContent = serviceData.id;
-                // ... and so on for all fields
-
-                // Example of updating a status badge
-                const modalStatusBadge = document.querySelector('#serviceDetailsModal .status-badge');
-                modalStatusBadge.className = `status-badge status-${serviceData.status}`;
-                modalStatusBadge.textContent = serviceData.status.charAt(0).toUpperCase() + serviceData.status.slice(1);
-
-
-                modal.style.display = 'flex';
-            }
-
-            // Close modal
-            closeModal.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside content
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script src="schedule.js"></script> <!-- New script for calendar logic -->
 </body>
 </html>
