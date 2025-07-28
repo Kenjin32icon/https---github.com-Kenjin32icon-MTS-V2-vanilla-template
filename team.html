@@ -6,64 +6,6 @@
     <title>GenMaint Pro - Team Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Specific styles for team management page - these are already in style.css based on reports.html */
-        /* Keeping them here for clarity, but they should ideally be in style.css */
-        .table-container {
-            margin-top: 20px;
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        th {
-            background-color: var(--primary);
-            color: white;
-        }
-        .action-button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: inline-flex; /* Added for icon alignment */
-            align-items: center; /* Added for icon alignment */
-            gap: 5px; /* Added for icon spacing */
-            margin-right: 5px; /* Spacing between buttons */
-        }
-        .action-button.edit-button {
-            background-color: var(--completed-color); /* Green, consistent with status-completed */
-        }
-        .action-button.delete-button {
-            background-color: var(--overdue-color); /* Red, consistent with status-overdue */
-        }
-        .status-badge.active-status {
-            background-color: var(--completed-color);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
-        .status-badge.inactive-status {
-            background-color: var(--overdue-color);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -76,9 +18,18 @@
                     <p>Generator Maintenance System</p>
                 </div>
             </div>
+            <!-- Added menu-button for mobile navigation consistency -->
+            <button class="menu-button" aria-label="Menu" aria-expanded="false">
+                <span class="menu-icon">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+                <span class="menu-text">Menu</span>
+            </button>
             <div class="header-container">
-                <div class="nav-container">
-                    <ul class="nav-links">
+                <div class="nav-container" id="main-nav"> <!-- Added id="main-nav" for script.js -->
+                    <ul class="nav-links" role="menu"> <!-- Added role="menu" for accessibility -->
                         <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                         <li><a href="registry.html"><i class="fas fa-list"></i> Registry</a></li>
                         <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
@@ -278,162 +229,6 @@
         </div>
     </div>
 
-    <script>
-        // Dark Mode Toggle
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const darkModeIcon = document.getElementById('darkModeIcon');
-            const darkModeText = document.getElementById('darkModeText');
-
-            // Check for saved preference
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeIcon.className = 'fas fa-sun';
-                darkModeText.textContent = 'Light Mode';
-            }
-
-            // Toggle dark mode
-            darkModeToggle.addEventListener('click', () => {
-                const isDark = document.body.classList.toggle('dark-mode');
-                localStorage.setItem('darkMode', isDark);
-
-                // Update icon and text
-                darkModeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-                darkModeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            });
-
-            // Modal functionality for Technician Details
-            const modal = document.getElementById('technicianDetailsModal');
-            const closeModal = document.querySelector('#technicianDetailsModal .close-modal');
-            const closeBtn = document.querySelector('#technicianDetailsModal .btn-close');
-            const viewDetailsBtns = document.querySelectorAll('.view-details');
-
-            // Open modal
-            viewDetailsBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    modal.style.display = 'flex';
-                    // In a real application, you would populate the modal with data based on the clicked row's ID
-                    // For example: const technicianId = btn.dataset.id; fetchTechnicianDetails(technicianId);
-                });
-            });
-
-            // Close modal
-            closeModal.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside content
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-
-            // Table sorting functionality for Team Table
-            const sortableHeaders = document.querySelectorAll('#teamTable .sortable');
-
-            sortableHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const sortBy = header.dataset.sort;
-                    const isAscending = !header.classList.contains('sorted-asc');
-
-                    // Reset other headers
-                    sortableHeaders.forEach(h => {
-                        h.classList.remove('sorted-asc', 'sorted-desc');
-                    });
-
-                    // Set current header
-                    header.classList.add(isAscending ? 'sorted-asc' : 'sorted-desc');
-
-                    // Sort the table (simulated)
-                    sortTeamTable(sortBy, isAscending);
-                });
-            });
-
-            // Filter functionality for Team Table
-            const applyTeamFiltersBtn = document.getElementById('applyTeamFilters');
-            const resetTeamFiltersBtn = document.getElementById('resetTeamFilters');
-
-            applyTeamFiltersBtn.addEventListener('click', applyTeamFilters);
-            resetTeamFiltersBtn.addEventListener('click', resetTeamFilters);
-
-            function applyTeamFilters() {
-                const searchTerm = document.getElementById('teamSearch').value.toLowerCase();
-                const roleFilter = document.getElementById('teamRoleFilter').value;
-                const statusFilter = document.getElementById('teamStatusFilter').value;
-
-                const rows = document.querySelectorAll('#teamTable tbody tr');
-
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    const name = cells[0].textContent.toLowerCase();
-                    const email = cells[1].textContent.toLowerCase();
-                    const role = cells[3].textContent;
-                    const statusCell = cells[5].querySelector('.status-badge');
-                    const status = statusCell ? statusCell.textContent : '';
-
-                    const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
-                    const matchesRole = !roleFilter || role === roleFilter;
-                    const matchesStatus = !statusFilter || status === statusFilter;
-
-                    row.style.display = matchesSearch && matchesRole && matchesStatus ? '' : 'none';
-                });
-            }
-
-            function resetTeamFilters() {
-                document.getElementById('teamSearch').value = '';
-                document.getElementById('teamRoleFilter').selectedIndex = 0;
-                document.getElementById('teamStatusFilter').selectedIndex = 0;
-
-                const rows = document.querySelectorAll('#teamTable tbody tr');
-                rows.forEach(row => row.style.display = '');
-            }
-
-            // Simulated table sorting for Team
-            function sortTeamTable(column, ascending) {
-                const rows = Array.from(document.querySelectorAll('#teamTable tbody tr'));
-
-                rows.sort((a, b) => {
-                    const aVal = a.children[getTeamColumnIndex(column)].textContent;
-                    const bVal = b.children[getTeamColumnIndex(column)].textContent;
-
-                    // For numeric columns (Assigned Services)
-                    if (column === 'assignedServices') {
-                        const numA = parseInt(aVal);
-                        const numB = parseInt(bVal);
-                        return ascending ? numA - numB : numB - numA;
-                    }
-
-                    // For status column
-                    if (column === 'status') {
-                        const statusOrder = {'Active': 1, 'Inactive': 2};
-                        return ascending ?
-                            statusOrder[aVal] - statusOrder[bVal] :
-                            statusOrder[bVal] - statusOrder[aVal];
-                    }
-
-                    // Default text comparison
-                    return ascending ?
-                        aVal.localeCompare(bVal) :
-                        bVal.localeCompare(aVal);
-                });
-
-                // Re-append rows in sorted order
-                const tableBody = document.querySelector('#teamTable tbody');
-                tableBody.innerHTML = '';
-                rows.forEach(row => tableBody.appendChild(row));
-            }
-
-            function getTeamColumnIndex(column) {
-                const columns = ['name', 'email', 'phone', 'role', 'assignedServices', 'status'];
-                return columns.indexOf(column);
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

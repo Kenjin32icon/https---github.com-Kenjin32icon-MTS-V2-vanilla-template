@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentMonthYear = document.getElementById('currentMonthYear');
     const prevMonthBtn = document.getElementById('prevMonth');
     const nextMonthBtn = document.getElementById('nextMonth');
+    const addNewServiceBtn = document.getElementById('addNewServiceBtn');
+    const addServiceModal = document.getElementById('addServiceModal');
+    const addServiceForm = document.getElementById('addServiceForm');
 
     let currentDate = new Date();
 
@@ -178,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCalendar(); // Initial render
 
     // Service Details Modal functionality
-    const modal = document.getElementById('serviceDetailsModal');
+    const serviceDetailsModal = document.getElementById('serviceDetailsModal');
 
     function openServiceModal(serviceData) {
         // Populate modal with serviceData
@@ -205,6 +208,128 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('modal-service-parts').textContent = serviceData.parts;
         document.getElementById('modal-service-notes').textContent = serviceData.notes;
 
-        modal.style.display = 'flex';
+        serviceDetailsModal.style.display = 'flex';
+    }
+
+    // Add New Service Modal functionality
+    if (addNewServiceBtn) {
+        addNewServiceBtn.addEventListener('click', () => {
+            addServiceModal.style.display = 'flex';
+            showFormSection('service-info'); // Ensure first section is shown on open
+        });
+    }
+
+    // Close Add New Service Modal
+    const closeAddServiceModalBtns = addServiceModal.querySelectorAll('.close-modal, .btn-close');
+    closeAddServiceModalBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            addServiceModal.style.display = 'none';
+            addServiceForm.reset(); // Clear form fields
+            showFormSection('service-info'); // Reset to first section
+        });
+    });
+
+    // New Service Form Section Navigation Logic
+    const formSections = addServiceModal.querySelectorAll('.form-section');
+    const navTabs = addServiceModal.querySelectorAll('.nav-tab');
+    const prevSectionBtn = document.getElementById('prevServiceSectionBtn');
+    const nextSectionBtn = document.getElementById('nextServiceSectionBtn');
+    const submitNewFormBtn = document.getElementById('submitNewServiceFormBtn');
+
+    let currentSectionIndex = 0;
+
+    const showFormSection = (sectionId) => {
+        formSections.forEach(section => {
+            section.classList.remove('active');
+        });
+        navTabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        const targetSection = document.getElementById(`section-${sectionId}`);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            const targetTabIndex = Array.from(formSections).indexOf(targetSection);
+            if (navTabs[targetTabIndex]) {
+                navTabs[targetTabIndex].classList.add('active');
+            }
+            currentSectionIndex = targetTabIndex;
+            updateNavButtons();
+        }
+    };
+
+    const updateNavButtons = () => {
+        prevSectionBtn.style.display = currentSectionIndex === 0 ? 'none' : 'inline-flex';
+        nextSectionBtn.style.display = currentSectionIndex === formSections.length - 1 ? 'none' : 'inline-flex';
+        submitNewFormBtn.style.display = currentSectionIndex === formSections.length - 1 ? 'inline-flex' : 'none';
+    };
+
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const sectionId = tab.dataset.section;
+            showFormSection(sectionId);
+        });
+    });
+
+    if (prevSectionBtn) {
+        prevSectionBtn.addEventListener('click', () => {
+            if (currentSectionIndex > 0) {
+                currentSectionIndex--;
+                showFormSection(formSections[currentSectionIndex].id.replace('section-', ''));
+            }
+        });
+    }
+
+    if (nextSectionBtn) {
+        nextSectionBtn.addEventListener('click', () => {
+            // Optional: Add validation here before moving to next section
+            if (currentSectionIndex < formSections.length - 1) {
+                currentSectionIndex++;
+                showFormSection(formSections[currentSectionIndex].id.replace('section-', ''));
+            }
+        });
+    }
+
+    // Initial state for buttons when modal opens (called when modal is opened)
+    // updateNavButtons(); // This will be called by showFormSection on modal open
+
+    // Submit New Service Form
+    if (addServiceForm) {
+        addServiceForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            // Gather form data
+            const newService = {
+                id: document.getElementById('serviceId').value,
+                date: document.getElementById('serviceDate').value,
+                time: document.getElementById('serviceTime').value,
+                type: document.getElementById('serviceType').value,
+                status: document.getElementById('serviceStatus').value,
+                generator: document.getElementById('genModel').value,
+                serial: document.getElementById('genSerial').value,
+                location: document.getElementById('genLocation').value,
+                lastService: document.getElementById('genLastService').value,
+                technician: document.getElementById('techName').value,
+                team: document.getElementById('techTeam').value,
+                contact: document.getElementById('techContact').value,
+                priority: document.getElementById('servicePriority').value,
+                duration: document.getElementById('serviceDuration').value,
+                parts: document.getElementById('serviceParts').value,
+                notes: document.getElementById('serviceNotes').value
+            };
+
+            // Add the new service to the services array
+            services.push(newService);
+
+            // Re-render the calendar to show the new service
+            renderCalendar();
+
+            // Close the modal and reset the form
+            addServiceModal.style.display = 'none';
+            addServiceForm.reset();
+            showFormSection('service-info'); // Reset to first section
+
+            alert('New service added successfully!');
+        });
     }
 });
