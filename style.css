@@ -184,6 +184,15 @@ nav {
 .toggle-button:hover {
     background-color: #455A64;
 }
+.menu-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--dark-text);
+    transition: transform 0.3s ease;
+}
+.menu-button.active { transform: translateY(-10px); }
 
 .signing-button, .client-button {
     background-color: var(--primary);

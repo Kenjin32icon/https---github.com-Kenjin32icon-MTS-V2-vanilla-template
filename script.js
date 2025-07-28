@@ -114,3 +114,22 @@ navLinks.forEach(link => {
     }
 });
 
+// menu-button functionality
+
+const menuButton = document.querySelector('.menu-button');
+const   header = document.querySelector('.header-container .nav-links');
+let menuVisible = false;
+
+menuButton.addEventListener('click', () => {
+    menuVisible = !menuVisible;
+    menuButton.classList.toggle('active', menuVisible);
+    navLinks.style.display = menuVisible ? 'flex' : 'none';
+});
+
+window.addEventListener('scroll', () => {
+    if (menuVisible) {
+        menuVisible = false;
+        navLinks.style.display = 'none';
+        menuButton.classList.remove('active');
+    }
+});
