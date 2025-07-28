@@ -1351,3 +1351,66 @@ td {
         min-width: unset; /* Remove min-width for full width */
     }
 }
+/* Admin Panel Specific Styles */
+.status-badge.role-admin {
+    background-color: rgba(156, 39, 176, 0.15); /* Purple-ish */
+    color: #9C27B0;
+}
+.status-badge.role-technician {
+    background-color: rgba(3, 169, 244, 0.15); /* Light Blue */
+    color: #03A9F4;
+}
+.status-badge.role-client {
+    background-color: rgba(255, 87, 34, 0.15); /* Deep Orange */
+    color: #FF5722;
+}
+
+/* Permissions Display in Modal */
+.permission-status {
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.permission-view {
+    background-color: rgba(76, 175, 80, 0.15); /* Green */
+    color: var(--positive);
+}
+.permission-manage {
+    background-color: rgba(63, 81, 181, 0.15); /* Primary Blue */
+    color: var(--primary);
+}
+.permission-hidden, .permission-no-access {
+    background-color: rgba(244, 67, 54, 0.15); /* Red */
+    color: var(--danger);
+}
+
+/* Dark mode adjustments for new status badges */
+.dark-mode .status-badge.role-admin {
+    background-color: rgba(186, 104, 200, 0.2);
+    color: #BA68C8;
+}
+.dark-mode .status-badge.role-technician {
+    background-color: rgba(129, 212, 250, 0.2);
+    color: #81D4FA;
+}
+.dark-mode .status-badge.role-client {
+    background-color: rgba(255, 138, 101, 0.2);
+    color: #FF8A65;
+}
+
+.dark-mode .permission-view {
+    background-color: rgba(129, 199, 132, 0.2);
+    color: var(--positive);
+}
+.dark-mode .permission-manage {
+    background-color: rgba(86, 119, 252, 0.2);
+    color: var(--primary);
+}
+.dark-mode .permission-hidden, .dark-mode .permission-no-access {
+    background-color: rgba(229, 115, 115, 0.2);
+    color: var(--danger);
+}

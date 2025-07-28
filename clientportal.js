@@ -17,6 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // client.js (Specific JavaScript for clientportal.html)
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Get client name from localStorage or default
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const clientName = loggedInUser && loggedInUser.role === 'client' ? loggedInUser.name : 'Valued Client';
+
+    // Update welcome message
+    // Ensure the element exists before trying to set textContent
+    const clientInfoHeading = document.querySelector('.client-info .stat-label');
+    if (clientInfoHeading) {
+        clientInfoHeading.innerHTML = `<i class="fas fa-handshake"></i> Welcome, ${clientName}!`;
+    }
+
+    // Simulate data loading
+    setTimeout(() => {
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+        const clientGeneratorsTable = document.getElementById('clientGeneratorsTable');
+        if (clientGeneratorsTable) clientGeneratorsTable.style.display = 'table';
+    }, 1000);
+
     // Modal functionality for Service Details
     const serviceDetailsModal = document.getElementById('serviceDetailsModal');
     const closeServiceModal = serviceDetailsModal ? serviceDetailsModal.querySelector('.close-modal') : null;
@@ -27,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewServiceDetailsBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 serviceDetailsModal.style.display = 'flex';
-                // Populate modal data here
+                // Populate modal data here (this part remains conceptual for now)
             });
         });
 

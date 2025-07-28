@@ -140,4 +140,107 @@
       authSuccess.classList.remove('hidden');
       authForm.reset();
     }
-  
+      function setFormMode(mode) {
+        isLoginMode = mode === 'login';
+
+        loginToggle.classList.toggle('active', isLoginMode);
+        signupToggle.classList.toggle('active', !isLoginMode);
+
+        nameField.classList.toggle('hidden', isLoginMode);
+        passwordConfirmField.classList.toggle('hidden', isLoginMode);
+
+        formTitle.textContent = isLoginMode ? 'Welcome Back' : 'Create Account';
+        formSubtitle.textContent = isLoginMode ? 'Please sign in to your account' : 'Join GenMaint Pro today';
+        submitBtn.textContent = isLoginMode ? 'Sign In' : 'Sign Up';
+
+        // Clear feedback messages
+        authFeedback.classList.add('hidden');
+        authSuccess.classList.add('hidden');
+    }
+        authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        authFeedback.classList.add('hidden'); // Hide previous errors
+        authSuccess.classList.add('hidden'); // Hide previous success
+        const loadingSpinner = document.getElementById('loading-spinner');
+        loadingSpinner.classList.remove('hidden'); // Show loading spinner
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const name = document.getElementById('name').value;
+        const passwordConfirm = document.getElementById('password-confirm').value;
+
+        // Client-side validation
+        if (!validateEmail(email)) {
+            showError('Please enter a valid email address.');
+            loadingSpinner.classList.add('hidden'); // Hide loading spinner
+            return;
+        }
+
+        if (password.length < 6) {
+            showError('Password must be at least 6 characters long.');
+            loadingSpinner.classList.add('hidden'); // Hide loading spinner
+            return;
+        }
+
+        if (!isLoginMode && password !== passwordConfirm) {
+            showError('Passwords do not match.');
+            loadingSpinner.classList.add('hidden'); // Hide loading spinner
+            return;
+        }
+
+        // Simulate API call
+        submitBtn.disabled = true;
+        submitBtn.textContent = isLoginMode ? 'Signing In...' : 'Signing Up...';
+
+        try {
+            // Simulate successful login/signup and assign a role
+            // In a real application, this would involve backend authentication
+            let simulatedRole = 'client'; // Default role
+            let simulatedName = name || 'User';
+
+            if (email === 'admin@genmaint.com' && password === 'password') {
+                simulatedRole = 'admin';
+                simulatedName = 'Admin User';
+            } else if (email === 'tech@genmaint.com' && password === 'password') {
+                simulatedRole = 'technician';
+                simulatedName = 'Tech User';
+            } else if (email === 'client@genmaint.com' && password === 'password') {
+                simulatedRole = 'client';
+                simulatedName = 'Client User';
+            } else if (!isLoginMode) { // For signup, assign client role
+                simulatedRole = 'client';
+                simulatedName = name;
+            } else {
+                throw new Error('Invalid email or password.');
+            }
+
+            // Store simulated user info in localStorage
+            localStorage.setItem('loggedInUser', JSON.stringify({
+                email: email,
+                name: simulatedName,
+                role: simulatedRole
+            }));
+
+            showSuccess(isLoginMode ? 'Signed in successfully! Redirecting...' : 'Account created successfully! Please check your email to confirm.');
+
+            // Simulate redirection based on role
+            setTimeout(() => {
+                if (simulatedRole === 'admin') {
+                    window.location.href = 'admin.html';
+                } else if (simulatedRole === 'client') {
+                    window.location.href = 'clientportal.html';
+                } else {
+                    window.location.href = 'index.html'; // Default for technician or other roles
+                }
+            }, 1500); // Short delay for success message to show
+
+        } catch (error) {
+            showError(error.message || 'An unexpected error occurred.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = isLoginMode ? 'Sign In' : 'Sign Up';
+            loadingSpinner.classList.add('hidden'); // Hide loading spinner
+        }
+    });
+    
