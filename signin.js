@@ -189,58 +189,64 @@
             return;
         }
 
-        // Simulate API call
-        submitBtn.disabled = true;
-        submitBtn.textContent = isLoginMode ? 'Signing In...' : 'Signing Up...';
+    //     // Simulate API call
+    //     submitBtn.disabled = true;
+    //     submitBtn.textContent = isLoginMode ? 'Signing In...' : 'Signing Up...';
 
-        try {
-            // Simulate successful login/signup and assign a role
-            // In a real application, this would involve backend authentication
-            let simulatedRole = 'client'; // Default role
-            let simulatedName = name || 'User';
+    //     try {
+    //         // Simulate successful login/signup and assign a role
+    //         // In a real application, this would involve backend authentication
+    //         let simulatedRole = 'client'; // Default role
+    //         let simulatedName = name || 'User';
 
-            if (email === 'admin@genmaint.com' && password === 'password') {
-                simulatedRole = 'admin';
-                simulatedName = 'Admin User';
-            } else if (email === 'tech@genmaint.com' && password === 'password') {
-                simulatedRole = 'technician';
-                simulatedName = 'Tech User';
-            } else if (email === 'client@genmaint.com' && password === 'password') {
-                simulatedRole = 'client';
-                simulatedName = 'Client User';
-            } else if (!isLoginMode) { // For signup, assign client role
-                simulatedRole = 'client';
-                simulatedName = name;
-            } else {
-                throw new Error('Invalid email or password.');
-            }
+    //         if (email === 'admin@genmaint.com' && password === 'password') {
+    //             simulatedRole = 'admin';
+    //             simulatedName = 'Admin User';
+    //         } else if (email === 'tech@genmaint.com' && password === 'password') {
+    //             simulatedRole = 'technician';
+    //             simulatedName = 'Tech User';
+    //         } else if (email === 'client@genmaint.com' && password === 'password') {
+    //             simulatedRole = 'client';
+    //             simulatedName = 'Client User';
+    //         } else if (!isLoginMode) { // For signup, assign client role
+    //             simulatedRole = 'client';
+    //             simulatedName = name;
+    //         } else {
+    //             throw new Error('Invalid email or password.');
+    //         }
 
-            // Store simulated user info in localStorage
-            localStorage.setItem('loggedInUser', JSON.stringify({
-                email: email,
-                name: simulatedName,
-                role: simulatedRole
-            }));
+    //         // Store simulated user info in localStorage
+    //         localStorage.setItem('loggedInUser', JSON.stringify({
+    //             email: email,
+    //             name: simulatedName,
+    //             role: simulatedRole
+    //         }));
 
-            showSuccess(isLoginMode ? 'Signed in successfully! Redirecting...' : 'Account created successfully! Please check your email to confirm.');
+    //         showSuccess(isLoginMode ? 'Signed in successfully! Redirecting...' : 'Account created successfully! Please check your email to confirm.');
 
-            // Simulate redirection based on role
-            setTimeout(() => {
-                if (simulatedRole === 'admin') {
-                    window.location.href = 'admin.html';
-                } else if (simulatedRole === 'client') {
-                    window.location.href = 'clientportal.html';
-                } else {
-                    window.location.href = 'index.html'; // Default for technician or other roles
-                }
-            }, 1500); // Short delay for success message to show
+    //         // Simulate redirection based on role
+    //         setTimeout(() => {
+    //             if (simulatedRole === 'admin') {
+    //                 window.location.href = 'admin.html';
+    //             } else if (simulatedRole === 'client') {
+    //                 window.location.href = 'clientportal.html';
+    //             } else {
+    //                 window.location.href = 'index.html'; // Default for technician or other roles
+    //             }
+    //         }, 1500); // Short delay for success message to show
 
-        } catch (error) {
-            showError(error.message || 'An unexpected error occurred.');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = isLoginMode ? 'Sign In' : 'Sign Up';
-            loadingSpinner.classList.add('hidden'); // Hide loading spinner
-        }
-    });
-    
+    //     } catch (error) {
+    //         showError(error.message || 'An unexpected error occurred.');
+    //     } finally {
+    //         submitBtn.disabled = false;
+    //         submitBtn.textContent = isLoginMode ? 'Sign In' : 'Sign Up';
+    //         loadingSpinner.classList.add('hidden'); // Hide loading spinner
+    //     }
+    // });
+    // Replace simulated login with:
+const response = await fetch('/api/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, password })
+});
+const data = await response.json();

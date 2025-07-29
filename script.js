@@ -1,5 +1,5 @@
 // script.js (Combined and Cleaned)
-import { users, services, parts, generators, technicians, rolePermissions } from './data.js';
+import { users, services, parts, generators, technicians, rolePermissions } from './Thought process/data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Dark Mode Toggle
