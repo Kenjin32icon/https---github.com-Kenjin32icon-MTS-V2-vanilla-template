@@ -331,6 +331,12 @@ app.get('/api/technicians', async (req, res) => {
   }
 });
 
+app.use(cors({
+  origin: 'http://your-frontend-domain.com',
+  credentials: true
+}));
+res.cookie('XSRF-TOKEN', csrfToken, { httpOnly: true });
+
 // Start the server
 app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}`);

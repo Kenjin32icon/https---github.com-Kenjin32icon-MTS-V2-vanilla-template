@@ -11,3 +11,5 @@ Thought process
 .env.test.local
 .env.production.local
 // log
+genmaint-backend/node_modules/
+genmaint-backend/ 
